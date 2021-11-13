@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2703125" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_share.xml" value="0.2703125" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/star.xml" value="0.2703125" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/activity_main.xml" value="0.19293478260869565" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_game_sheet.xml" value="0.264" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_settings.xml" value="0.19293478260869565" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/parameters.xml" value="0.19293478260869565" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/menu/bottom_nav_menu.xml" value="0.25416666666666665" />
+        <entry key="..\:/Documents/AndroidStudioProjects/Spire8INF865/app/src/main/res/menu/menulist.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/layout/activity_main.xml" value="0.536" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/layout/fragment_home.xml" value="0.12395833333333334" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/layout/fragment_settings.xml" value="0.12395833333333334" />
@@ -13,7 +23,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

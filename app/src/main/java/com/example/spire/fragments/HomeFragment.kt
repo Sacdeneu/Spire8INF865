@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.spire.R
 import kotlinx.android.synthetic.main.fragment_home.*
+import android.widget.Button
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,9 +43,9 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        home.setOnClickListener{
+        /*home.setOnClickListener{
 
-        }
+        }*/
 
     }
 }

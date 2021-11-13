@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment">
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FRAGMENT MENU HOME"
@@ -15,6 +15,81 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        />
+        />-->
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="#EEEEEE"
+        android:orientation="vertical"
+        android:paddingVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#AAAAAA"
+            android:columnCount="2"
+            android:orientation="vertical"
+            android:rowCount="5">
+
+            <ImageView
+                android:id="@+id/game_image"
+                android:layout_width="124dp"
+                android:layout_height="wrap_content"
+                android:layout_rowSpan="5"
+                android:layout_column="0"
+                android:layout_gravity="fill_vertical"
+                android:background="#AAAA00"
+                android:gravity="start"
+                android:paddingEnd="10dp"
+                android:src="@drawable/game_poster" />
+
+            <TextView
+                android:id="@+id/game_title"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="fill_horizontal"
+                android:background="#88AAAA"
+                android:text="GAME TITLE" />
+
+            <TextView
+                android:id="@+id/game_publisher"
+                android:layout_column="1"
+                android:layout_gravity="fill_horizontal"
+                android:background="#AA88AA"
+                android:text="GAME PUBLISHER | YEAR" />
+
+            <TextView
+                android:id="@+id/game_advancement"
+                android:layout_column="1"
+                android:layout_gravity="fill_horizontal"
+                android:background="#AAAA88"
+                android:text="GAME ADVANCEMENT" />
+
+            <TextView
+                android:id="@+id/game_score"
+                android:layout_column="1"
+                android:layout_gravity="fill_horizontal"
+                android:background="#AA8888"
+                android:text="GAME SCORE" />
+
+            <Button
+                android:id="@+id/game_sheet_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_gravity="fill_horizontal"
+                android:backgroundTint="@color/white"
+                android:text="Voir le jeu"
+                android:textColor="@color/black" />
+        </GridLayout>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

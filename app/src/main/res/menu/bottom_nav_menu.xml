@@ -9,4 +9,8 @@
         android:id="@+id/ic_settings"
         android:title="@string/settings"
         android:icon="@drawable/ic_settings"/>
+    <item
+        android:id="@+id/ic_game_sheet"
+        android:title="@string/game_sheet"
+        android:icon="@drawable/ic_share"/>
 </menu>

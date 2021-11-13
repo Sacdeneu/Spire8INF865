@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.spire.R
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_home.home
+//import kotlinx.android.synthetic.main.fragment_home.home
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 // TODO: Rename parameter arguments, choose names that match
