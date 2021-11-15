@@ -13,4 +13,8 @@
         android:id="@+id/ic_game_sheet"
         android:title="@string/game_sheet"
         android:icon="@drawable/ic_share"/>
+    <item
+        android:id="@+id/ic_search_game"
+        android:title="Recherche"
+        android:icon="@drawable/ic_search" />
 </menu>

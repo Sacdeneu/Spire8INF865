@@ -11,6 +11,7 @@ import com.example.spire.fragments.SettingsFragment
 import com.example.spire.fragments.GameSheetFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import androidx.annotation.NonNull
+import com.example.spire.fragments.SearchFragment
 
 import com.google.android.material.navigation.NavigationBarView
 
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         val homeFragment = HomeFragment()
         val settingsFragment = SettingsFragment()
         val gameSheetFragment = GameSheetFragment()
+        val SearchFragment = SearchFragment()
 
         //setup toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar_list)
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_settings -> replaceFragment(settingsFragment)
                 R.id.ic_game_sheet -> replaceFragment(gameSheetFragment)
+                R.id.ic_search_game -> replaceFragment(SearchFragment)
             }
             true
         }
