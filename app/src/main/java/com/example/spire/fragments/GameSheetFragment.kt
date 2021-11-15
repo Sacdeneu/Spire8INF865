@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import com.example.spire.R
 import kotlinx.android.synthetic.main.fragment_home.*
 //import kotlinx.android.synthetic.main.fragment_home.home
-import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.fragment_game_sheet.*
 import android.widget.ImageButton
 import android.widget.RatingBar

@@ -11,12 +11,13 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:orientation="vertical">
-        <TextView
+
+        <EditText
+            android:id="@+id/search_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Rechercher"
-            android:id="@+id/search_text"/>
+            android:hint="Rechercher"
+            android:textSize="20sp" />
 
         <ListView
              android:layout_width="match_parent"

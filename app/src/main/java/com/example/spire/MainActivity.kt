@@ -7,9 +7,10 @@ import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.spire.fragments.HomeFragment
-import com.example.spire.fragments.SettingsFragment
 import com.example.spire.fragments.GameSheetFragment
+import com.example.spire.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+
 import androidx.annotation.NonNull
 import com.example.spire.fragments.SearchFragment
 
@@ -24,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
         //initialise fragments
         val homeFragment = HomeFragment()
@@ -48,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
 
     }
 
