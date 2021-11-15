@@ -1,53 +1,63 @@
 package com.example.spire.fragments
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.*
 import com.example.spire.R
-import kotlinx.android.synthetic.main.fragment_home.*
-//import kotlinx.android.synthetic.main.fragment_home.home
-import kotlinx.android.synthetic.main.fragment_settings.*
+import com.google.firebase.database.core.utilities.Utilities
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+class SettingsFragment : PreferenceFragmentCompat() {
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        addPreferencesFromResource(R.xml.prefs)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+        val notificationPreference: CheckBoxPreference? = findPreference("DarkMode")
+        notificationPreference!!.onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { preference, newValue ->
+                // Manually save to Prefs
+                val sh = requireActivity().applicationContext.getSharedPreferences("DarkMode", Context.MODE_PRIVATE).edit();
+                if(newValue == true) {
+                    sh.putBoolean("is",true);
+                    sh.commit();
+                    val ft = requireFragmentManager().beginTransaction()
+                    ft.detach(this).attach(this).commit()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+                else {
+                    sh.putBoolean("is",false);
+                    sh.commit();
+                    val ft = requireFragmentManager().beginTransaction()
+                    ft.detach(this).attach(this).commit()
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                // Reflect the newValue to Preference?
+                true
+            }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        load_settings()
         super.onViewCreated(view, savedInstanceState)
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
-        settings.setOnClickListener{
+    private fun load_settings(){
+        val sp = PreferenceManager.getDefaultSharedPreferences(context);
 
-        }
     }
 }

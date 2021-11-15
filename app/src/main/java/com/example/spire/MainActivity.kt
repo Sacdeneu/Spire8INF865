@@ -12,14 +12,17 @@ import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.spire.fragments.HomeFragment
-import com.example.spire.fragments.SettingsFragment
 import com.example.spire.fragments.GameSheetFragment
+import com.example.spire.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
+<<<<<<< HEAD
 import androidx.annotation.NonNull
 import com.example.spire.fragments.PopUpValidateNewOrder
 import com.google.android.material.navigation.NavigationBarView
 
 
+=======
+>>>>>>> main
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
 
     }
 
