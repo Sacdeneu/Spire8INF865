@@ -38,8 +38,23 @@
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/layout/settings_activity.xml" value="0.23697916666666666" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/menu/bottom_nav_menu.xml" value="0.264" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/menu/menulist.xml" value="0.4" />
+<<<<<<< HEAD
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable-v24/ic_add.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_add.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_add_circle.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_delete.xml" value="0.14635416666666667" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/drawable/ic_validate.xml" value="0.2212962962962963" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/activity_main.xml" value="0.12273550724637682" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_game_sheet.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/fragment_settings.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/layout/popup_move_list_user.xml" value="0.17300724637681159" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/menu/bottom_nav_menu.xml" value="0.13020833333333334" />
+        <entry key="..\:/Users/reyna/AndroidStudioProjects/Spire8INF865/app/src/main/res/menu/menulist.xml" value="0.25416666666666665" />
+=======
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/xml/prefs.xml" value="0.264" />
         <entry key="..\:/Users/Alexandre/Desktop/Maitrise UQAC/Programmation de plateformes mobiles/Spire8INF865/app/src/main/res/xml/root_preferences.xml" value="0.23697916666666666" />
+>>>>>>> main
       </map>
     </option>
   </component>

@@ -32,6 +32,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <GridLayout
+            android:id="@+id/Game1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#AAAAAA"
@@ -80,16 +81,34 @@
                 android:background="#AA8888"
                 android:text="GAME SCORE" />
 
-            <Button
-                android:id="@+id/game_sheet_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_column="1"
-                android:layout_gravity="fill_horizontal"
-                android:backgroundTint="@color/white"
-                android:text="Voir le jeu"
-                android:textColor="@color/black" />
+            <LinearLayout>
+                android:orientation="horizontal"
+                <Button
+                    android:id="@+id/game_sheet_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:backgroundTint="@color/white"
+                    android:text="Voir le jeu"
+                    android:textColor="@color/black" />
+                <Button
+                    android:layout_marginLeft="20dp"
+                    android:id="@+id/move_game"
+                    android:onClick="buttonMoveGameList"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_gravity="fill_horizontal"
+                    android:backgroundTint="@color/white"
+                    android:text="↕"
+                    android:textSize="20dp"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
         </GridLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

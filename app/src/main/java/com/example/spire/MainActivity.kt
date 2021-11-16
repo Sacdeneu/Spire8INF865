@@ -2,25 +2,29 @@ package com.example.spire
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.View.*
+import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.example.spire.fragments.HomeFragment
 import com.example.spire.fragments.GameSheetFragment
 import com.example.spire.fragments.SettingsFragment
 import kotlinx.android.synthetic.main.activity_main.*
-
 import androidx.annotation.NonNull
+import com.example.spire.fragments.PopUpValidateNewOrder
+import com.google.android.material.navigation.NavigationBarView
 import com.example.spire.fragments.SearchFragment
 
-import com.google.android.material.navigation.NavigationBarView
 
 
 
 
 class MainActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +35,8 @@ class MainActivity : AppCompatActivity() {
         val settingsFragment = SettingsFragment()
         val gameSheetFragment = GameSheetFragment()
         val SearchFragment = SearchFragment()
+
+
 
         //setup toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar_list)
@@ -60,6 +66,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menulist, menu)
         return super.onCreateOptionsMenu(menu)
@@ -68,4 +78,50 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return super.onOptionsItemSelected(item)
     }
+
+    fun buttonEditOrderList(menu : MenuItem){
+        Toast.makeText(applicationContext,"Modification en cours", Toast.LENGTH_SHORT).show()
+        findViewById<View>(R.id.edit).visibility=GONE
+
+        findViewById<View>(R.id.add).visibility=GONE
+        findViewById<View>(R.id.share).visibility=GONE
+
+        findViewById<View>(R.id.validate).visibility=VISIBLE
+        findViewById<View>(R.id.cancel).visibility=VISIBLE
+
+        findViewById<View>(R.id.move_game).visibility=VISIBLE
+    }
+
+    fun buttonEditOrderListValidate(menu : MenuItem){
+        Toast.makeText(applicationContext,"Modification validé", Toast.LENGTH_SHORT).show()
+        findViewById<View>(R.id.validate).visibility=GONE
+
+        findViewById<View>(R.id.cancel).visibility=GONE
+        findViewById<View>(R.id.move_game).visibility=GONE
+
+        findViewById<View>(R.id.add).visibility=VISIBLE
+        findViewById<View>(R.id.share).visibility=VISIBLE
+        findViewById<View>(R.id.edit).visibility=VISIBLE
+    }
+
+    fun buttonEditOrderListCancel(menu : MenuItem){
+        Toast.makeText(applicationContext,"Modification annulé", Toast.LENGTH_SHORT).show()
+        findViewById<View>(R.id.cancel).visibility=GONE
+
+        findViewById<View>(R.id.validate).visibility=GONE
+        findViewById<View>(R.id.move_game).visibility=GONE
+
+        findViewById<View>(R.id.add).visibility=VISIBLE
+        findViewById<View>(R.id.share).visibility=VISIBLE
+        findViewById<View>(R.id.edit).visibility=VISIBLE
+    }
+
+    fun buttonMoveGameList(view : View){
+        Toast.makeText(applicationContext,"PopUp déplacement du jeu dans la liste", Toast.LENGTH_SHORT).show()
+
+        val PopUpValidateNewOrder = PopUpValidateNewOrder()
+        replaceFragment(PopUpValidateNewOrder)
+    }
+
+
 }
