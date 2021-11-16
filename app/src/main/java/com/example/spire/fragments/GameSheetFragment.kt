@@ -29,7 +29,8 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
     private var param1: String? = null
     private var param2: String? = null
     private var game_score_personal: Double = 0.0
-    private val score_list: MutableList<Double> = mutableListOf(1.0, 2.0, 3.0)
+    private val score_list: MutableList<Double> = mutableListOf(2.0, 3.0, 4.0, 5.0)
+    private val nb_notes = score_list.lastIndex
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,13 +55,18 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         game_advancement.setTextColor(Color.parseColor("#0aad3f"))
         game_score_user.text = "4,0 \n /5"
         game_rating_bar.onRatingBarChangeListener = this    //Ecoute les changements de note
+        averageScore(score_list)
     }
 
 
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {  //Lorsque la note du jeu change :
         game_score_personal = p1.toDouble()
         //game_score_personal_text.text = game_score_personal.toString()
-        score_list.add(game_score_personal)
+        if( score_list.lastIndex == nb_notes ) {
+            score_list.add(game_score_personal)
+        } else {
+            score_list[score_list.lastIndex] = game_score_personal
+        }
         averageScore(score_list)
     }
 
@@ -72,6 +78,6 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
             total_score += score_list[i]
         }
         average_score = ((((total_score / score_list.size)* 100).toInt()).toDouble() / 100) //Calcul le score moyen
-        game_score_public.text = "$average_score \n    /5"   //Affiche le score de la moyenne de tous les utilisateurs
+        game_score_public.text = "$average_score \n   /5"   //Affiche le score de la moyenne de tous les utilisateurs
     }
 }

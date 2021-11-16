@@ -123,5 +123,10 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(PopUpValidateNewOrder)
     }
 
+    fun buttonLinkGame(view : View){
+        val GameSheetFragment = GameSheetFragment()
+        replaceFragment(GameSheetFragment)
+    }
+
 
 }

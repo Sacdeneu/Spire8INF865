@@ -16,7 +16,11 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />-->
-
+    <!--<androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="LinearLayoutManager"/>-->
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
@@ -24,7 +28,6 @@
         android:layout_margin="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:background="#EEEEEE"
         android:orientation="vertical"
         android:paddingVertical="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,10 +38,11 @@
             android:id="@+id/Game1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#AAAAAA"
             android:columnCount="2"
             android:orientation="vertical"
-            android:rowCount="5">
+            android:rowCount="5"
+            android:background="#EEEEEE"
+            android:clickable="true">
 
             <ImageView
                 android:id="@+id/game_image"
@@ -47,7 +51,6 @@
                 android:layout_rowSpan="5"
                 android:layout_column="0"
                 android:layout_gravity="fill_vertical"
-                android:background="#AAAA00"
                 android:gravity="start"
                 android:paddingEnd="10dp"
                 android:src="@drawable/game_poster" />
@@ -57,39 +60,42 @@
                 android:layout_row="0"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
-                android:background="#88AAAA"
+                android:paddingBottom="10dp"
+                android:textSize="20sp"
+                android:textStyle="bold"
                 android:text="GAME TITLE" />
 
             <TextView
                 android:id="@+id/game_publisher"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
-                android:background="#AA88AA"
                 android:text="GAME PUBLISHER | YEAR" />
 
             <TextView
                 android:id="@+id/game_advancement"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
-                android:background="#AAAA88"
                 android:text="GAME ADVANCEMENT" />
 
             <TextView
                 android:id="@+id/game_score"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
-                android:background="#AA8888"
-                android:text="GAME SCORE" />
+                android:paddingVertical="6dp"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:text="GAME SCORE / 5" />
 
             <LinearLayout>
                 android:orientation="horizontal"
                 <Button
                     android:id="@+id/game_sheet_button"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:layout_gravity="fill_horizontal"
                     android:backgroundTint="@color/white"
+                    android:onClick="buttonLinkGame"
                     android:text="Voir le jeu"
                     android:textColor="@color/black" />
                 <Button
