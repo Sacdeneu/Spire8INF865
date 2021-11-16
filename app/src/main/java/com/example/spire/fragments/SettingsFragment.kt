@@ -36,6 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     ft.detach(this).attach(this).commit()
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 }
+
                 // Reflect the newValue to Preference?
                 true
             }

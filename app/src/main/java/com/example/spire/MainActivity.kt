@@ -57,6 +57,11 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        recreate()
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         if(fragment != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
             supportFragmentManager.beginTransaction().apply {
