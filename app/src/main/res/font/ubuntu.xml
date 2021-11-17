@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:android="http://schemas.android.com/apk/res/android">
+    <font
+        android:font="@font/ubuntumedium"
+        android:fontStyle="normal"
+        android:fontWeight="500"
+        />
+    <font
+        android:font="@font/ubuntubold"
+        android:fontStyle="normal"
+        android:fontWeight="700"
+        />
+    <font
+    android:font="@font/ubuntulight"
+    android:fontStyle="normal"
+    android:fontWeight="200"
+    />
+    <font
+    android:font="@font/ubuntuitalic"
+    android:fontStyle="italic"
+    android:fontWeight="400"
+    />
+    <font
+        android:font="@font/ubunturegular"
+        android:fontStyle="normal"
+        android:fontWeight="400"
+        />
+</font-family>
