@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "256089211907",
+    "project_id": "spire-363b9",
+    "storage_bucket": "spire-363b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:256089211907:android:b130fca5e6832bc9f57a36",
+        "android_client_info": {
+          "package_name": "com.example.spire"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "256089211907-8s7n47gnd3vfqrur0thd4rtprh66itga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBU4CuWZ6AiQaX1OJiEc0wkJ19heYX_1PU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256089211907-8s7n47gnd3vfqrur0thd4rtprh66itga.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
