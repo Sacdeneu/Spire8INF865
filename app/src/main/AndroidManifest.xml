@@ -10,6 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Spire">
         <activity
+            android:name=".AnimationStartupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false"
             android:label="@string/title_activity_settings" />

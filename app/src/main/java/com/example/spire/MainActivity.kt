@@ -1,13 +1,16 @@
 package com.example.spire
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.os.Handler
+import android.view.*
 import android.view.View.*
+import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -19,16 +22,18 @@ import androidx.annotation.NonNull
 import com.example.spire.fragments.PopUpValidateNewOrder
 import com.google.android.material.navigation.NavigationBarView
 import com.example.spire.fragments.SearchFragment
-
-
-
-
+import kotlinx.android.synthetic.main.activity_animationstartup.*
+import androidx.core.util.Pair
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity() {
+    private var DELAY_TIME = 4000;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         //initialise fragments
         val homeFragment = HomeFragment()
@@ -71,9 +76,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(savedInstanceState: Bundle) {
+    /*override fun onSaveInstanceState(savedInstanceState: Bundle) {
 
-    }
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menulist, menu)
@@ -132,6 +137,4 @@ class MainActivity : AppCompatActivity() {
         val GameSheetFragment = GameSheetFragment()
         replaceFragment(GameSheetFragment)
     }
-
-
 }
