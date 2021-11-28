@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_settings -> replaceFragment(settingsFragment)
-                R.id.ic_game_sheet -> replaceFragment(gameSheetFragment)
+                /*R.id.ic_game_sheet -> replaceFragment(gameSheetFragment)*/
                 R.id.ic_search_game -> replaceFragment(SearchFragment)
             }
             true

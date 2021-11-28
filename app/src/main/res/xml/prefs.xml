@@ -8,4 +8,13 @@
             android:summaryOn="Le mode sombre est activé"
             android:title="Mode Sombre" />
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Paramètres de compte"
+        android:key="account">
+        <Preference
+            android:key="disconnect"
+            android:title="Se déconnecter"/>
+
+    </PreferenceCategory>
 </PreferenceScreen>

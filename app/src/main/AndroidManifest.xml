@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Spire">
         <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
+        <activity
             android:name=".AnimationStartupActivity"
             android:exported="false" />
         <activity
