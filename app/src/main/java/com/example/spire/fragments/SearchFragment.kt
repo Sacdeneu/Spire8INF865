@@ -60,9 +60,9 @@ class SearchFragment : Fragment() {
 
         adapter2 = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_2, mylist)
 
-        lv_listView.adapter = adapter
+        //lv_listView.adapter = adapter
         //lv_listView2.adapter = adapter2
-        lv_listView.onItemClickListener =
+        /*lv_listView.onItemClickListener =
             AdapterView.OnItemClickListener { Parent, view, position, id ->
                 Toast.makeText(
                     context,
@@ -88,7 +88,7 @@ class SearchFragment : Fragment() {
                 //after the change calling the method and passing the search input
 
             }
-        })
+        })*/
 
 
     }
