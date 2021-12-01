@@ -17,22 +17,23 @@ import androidx.fragment.app.Fragment
 import com.example.spire.fragments.HomeFragment
 import com.example.spire.fragments.GameSheetFragment
 import com.example.spire.fragments.SettingsFragment
-import kotlinx.android.synthetic.main.activity_main.*
 import androidx.annotation.NonNull
 import com.example.spire.fragments.PopUpValidateNewOrder
 import com.google.android.material.navigation.NavigationBarView
 import com.example.spire.fragments.SearchFragment
-import kotlinx.android.synthetic.main.activity_animationstartup.*
 import androidx.core.util.Pair
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ActivityCompat
+import com.example.spire.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var DELAY_TIME = 4000;
-
+    private lateinit var binding:ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
 
         //initialise fragments
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(homeFragment)
 
         //listener pour les boutons du menu du bas
-        bottomNavigation.setOnItemSelectedListener { item ->
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.ic_home -> replaceFragment(homeFragment)
                 R.id.ic_settings -> replaceFragment(settingsFragment)

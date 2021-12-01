@@ -7,12 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.spire.R
-import kotlinx.android.synthetic.main.fragment_home.*
 //import kotlinx.android.synthetic.main.fragment_home.home
-import kotlinx.android.synthetic.main.fragment_game_sheet.*
 import android.widget.ImageButton
 import android.widget.RatingBar
-import kotlinx.android.synthetic.main.fragment_game_sheet.game_advancement as game_advancement1
+import com.example.spire.databinding.ActivityMainBinding
+import com.example.spire.databinding.FragmentGameSheetBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -32,6 +31,9 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
     private val score_list: MutableList<Double> = mutableListOf(2.0, 3.0, 4.0, 5.0)
     private val nb_notes = score_list.lastIndex
 
+    private var _binding: FragmentGameSheetBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -44,6 +46,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = FragmentGameSheetBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game_sheet, container, false)
     }
@@ -51,10 +54,10 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        game_advancement.text = "Terminé"
-        game_advancement.setTextColor(Color.parseColor("#0aad3f"))
-        game_score_user.text = "4,0 \n /5"
-        game_rating_bar.onRatingBarChangeListener = this    //Ecoute les changements de note
+        binding.gameAdvancement.text = "Terminé"
+        binding.gameAdvancement.setTextColor(Color.parseColor("#0aad3f"))
+        binding.gameScoreUser.text = "4,0 \n /5"
+        binding.gameRatingBar.onRatingBarChangeListener = this    //Ecoute les changements de note
         averageScore(score_list)
     }
 
@@ -78,6 +81,11 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
             total_score += score_list[i]
         }
         average_score = ((((total_score / score_list.size)* 100).toInt()).toDouble() / 100) //Calcul le score moyen
-        game_score_public.text = "$average_score \n   /5"   //Affiche le score de la moyenne de tous les utilisateurs
+        binding.gameScorePublic.text = "$average_score \n   /5"   //Affiche le score de la moyenne de tous les utilisateurs
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

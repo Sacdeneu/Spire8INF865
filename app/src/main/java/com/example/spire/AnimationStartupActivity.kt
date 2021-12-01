@@ -54,10 +54,12 @@ class AnimationStartupActivity : AppCompatActivity() {
             if(currentUser != null){
                 val intentStartup = Intent(this, MainActivity::class.java);
                 startActivity(intentStartup, options.toBundle());
+                finish()
             }
             else{
                 val intentStartup = Intent(this, LoginActivity::class.java);
                 startActivity(intentStartup, options.toBundle());
+                finish()
             }
         }, DELAY_TIME.toLong());
 

@@ -13,14 +13,13 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import com.example.spire.R
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_game_sheet.*
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.example.spire.databinding.FragmentSearchBinding
 
 
 class SearchFragment : Fragment() {
 
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private lateinit var adapter: ArrayAdapter<*>
     private lateinit var adapter2: ArrayAdapter<*>
     public val mylist = arrayListOf<String>()
@@ -35,6 +34,7 @@ class SearchFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -91,6 +91,12 @@ class SearchFragment : Fragment() {
         })*/
 
 
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

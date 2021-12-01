@@ -7,10 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.spire.R
-import kotlinx.android.synthetic.main.fragment_home.*
 import android.widget.Button
 import android.widget.Toast
-import kotlinx.android.synthetic.*
 import com.example.spire.fragments.HomeFragment
 
 
