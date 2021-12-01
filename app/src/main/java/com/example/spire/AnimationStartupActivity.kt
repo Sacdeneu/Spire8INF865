@@ -1,6 +1,7 @@
 package com.example.spire
 
 import android.content.Intent
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -23,7 +24,6 @@ class AnimationStartupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
     }
-
     override fun onStart() {
         super.onStart()
         val auth = Firebase.auth
