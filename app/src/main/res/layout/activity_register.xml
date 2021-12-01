@@ -49,14 +49,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
+            android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="S'inscrire"
-            android:background="#000"
-            android:textColor="#fff"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            />
+            android:background="#000"
+            android:text="S'inscrire"
+            android:textColor="#fff" />
 
 
 

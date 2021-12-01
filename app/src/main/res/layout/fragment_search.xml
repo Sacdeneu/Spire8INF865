@@ -20,15 +20,11 @@
             android:hint="Rechercher"
             android:textSize="20sp" />
 
-
-
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_Game"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
 
 
 </FrameLayout>

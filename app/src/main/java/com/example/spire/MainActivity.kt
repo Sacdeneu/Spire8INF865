@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private var DELAY_TIME = 4000;
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
