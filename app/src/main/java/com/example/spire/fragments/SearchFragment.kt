@@ -35,7 +35,7 @@ class SearchFragment : Fragment() {
     ): View? {
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
