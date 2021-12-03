@@ -6,23 +6,26 @@ import android.text.TextWatcher
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
-import kotlinx.android.synthetic.*
-import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.fragment_game_sheet.*
-import kotlinx.android.synthetic.main.fragment_search.*
+import com.example.spire.databinding.FragmentSearchBinding
 import values.Datasource
 
 
 class SearchFragment : Fragment() {
-
+    private var layoutManager: RecyclerView.LayoutManager? = null
+    private var adapter: RecyclerView.Adapter<GameAdapter.GameViewHolder>? = null
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     //private lateinit var adapter: ArrayAdapter<*>
-    //private lateinit var adapter2: ArrayAdapter<*>
-    //public val mylist = arrayListOf<String>()
-    //val gameName = arrayListOf<String>()
+   // private lateinit var adapter2: ArrayAdapter<*>
+    public val mylist = arrayListOf<String>()
+    val gameName = arrayListOf<String>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
     }
 
@@ -34,11 +37,22 @@ class SearchFragment : Fragment() {
         val recyclerView: RecyclerView = recycler_Game
         recyclerView.adapter = GameAdapter(gameList)*/
 
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+
+        return binding.root
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val gameList = Datasource(this).getGameList()
+        val recyclerView: RecyclerView = binding.recyclerGame
+        //recyclerView.adapter = GameAdapter(gameList)
+        recyclerView.apply {
+            layoutManager = LinearLayoutManager(activity)
+            adapter = GameAdapter(gameList)
+        }
         /*gameName.add("far Cry 6")
         gameName.add("DoodleJump")
         gameName.add("BattleField 2042")
@@ -50,9 +64,6 @@ class SearchFragment : Fragment() {
         gameName.add("Halo")
         gameName.add("NBA 2K22")*/
 
-        val gameList = Datasource(this).getGameList()
-        val recyclerView: RecyclerView = recycler_Game
-        recyclerView.adapter = GameAdapter(gameList)
         /*adapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_list_item_1,
@@ -93,6 +104,12 @@ class SearchFragment : Fragment() {
         })*/
 
 
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

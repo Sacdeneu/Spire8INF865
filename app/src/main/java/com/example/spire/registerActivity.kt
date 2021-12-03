@@ -3,40 +3,41 @@ package com.example.spire
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
+import com.example.spire.databinding.ActivityRegisterBinding
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_register.*
 
-private var mAuth: FirebaseAuth? = null
-class RegisterActivity : AppCompatActivity() {
+class registerActivity : AppCompatActivity() {
+    private lateinit var binding:ActivityRegisterBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
-
-        btn_register.setOnClickListener{
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        binding.btnRegister.setOnClickListener{
             when {
-                TextUtils.isEmpty(mail.toString().trim{it <= ' ' }) -> {
+                TextUtils.isEmpty(binding.mail.text.toString().trim{it <= ' ' }) -> {
                     Toast.makeText(
-                        this@RegisterActivity,
+                        this@registerActivity,
                         "please enter mail.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
 
-                TextUtils.isEmpty(password.toString().trim{it <= ' ' }) -> {
+                TextUtils.isEmpty(binding.password.text.toString().trim{it <= ' ' }) -> {
                     Toast.makeText(
-                        this@RegisterActivity,
+                        this@registerActivity,
                         "please enter password.",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
                 else ->{
-                    val mail: String= mail.toString().trim(){it<= ' ' }
-                    val password: String= password.toString().trim(){it<= ' ' }
+                    val mail: String= binding.mail.text.toString().trim(){it<= ' ' }
+                    val password: String= binding.password.text.toString().trim(){it<= ' ' }
 
                     FirebaseAuth.getInstance().createUserWithEmailAndPassword(mail, password)
                         .addOnCompleteListener(
@@ -45,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
                                     val firebaseUser: FirebaseUser = task.result!!.user!!
 
                                     Toast.makeText(
-                                        this@RegisterActivity,
+                                        this@registerActivity,
                                         "Succesfull register",
                                         Toast.LENGTH_SHORT
                                     ).show()
@@ -53,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                                 }
                                 else{
                                     Toast.makeText(
-                                        this@RegisterActivity,
+                                        this@registerActivity,
                                         task.exception!!.message.toString(),
                                         Toast.LENGTH_SHORT).show()
                                 }
