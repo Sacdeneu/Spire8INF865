@@ -24,16 +24,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)
         val disconnectPref = findPreference("disconnect") as Preference?
-        disconnectPref!!.setOnPreferenceClickListener(object :
-            Preference.OnPreferenceClickListener {
-            override fun onPreferenceClick(preference: Preference?): Boolean {
-                Firebase.auth.signOut()
-                val logOutintent= Intent(activity, LoginActivity::class.java)
-                startActivity(logOutintent)
-                activity?.finish()
-                return true
-            }
-        })
+        disconnectPref!!.setOnPreferenceClickListener {
+            Firebase.auth.signOut()
+            val logOutIntent = Intent(activity, LoginActivity::class.java)
+            startActivity(logOutIntent)
+            activity?.finish()
+            true
+        }
     }
 
 
