@@ -9,6 +9,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
@@ -19,7 +20,7 @@ import com.google.firebase.ktx.Firebase
 class AnimationStartupActivity : AppCompatActivity() {
     var firebaseAuth: FirebaseAuth? = null
     var mAuthListener: FirebaseAuth.AuthStateListener? = null
-    private var DELAY_TIME = 4000;
+    private var DELAY_TIME = 1500;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,7 +41,7 @@ class AnimationStartupActivity : AppCompatActivity() {
 
         //Hooks
         var logo = findViewById<ImageView>(R.id.imageViewLogo)
-        var background = findViewById<ImageView>(R.id.imageViewBackground);
+        var background = findViewById<RelativeLayout>(R.id.relativeLayoutStartupBackground);
         var textLogo = findViewById<TextView>(R.id.textView)
 
         logo.setAnimation(topAnim);
@@ -49,7 +50,8 @@ class AnimationStartupActivity : AppCompatActivity() {
         Handler().postDelayed({
             val pair1 = Pair.create<View, String>(logo, "logo_logo")
             val pair2 = Pair.create<View, String>(textLogo, "logo_text")
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pair1, pair2)
+            val pair3 = Pair.create<View, String>(background, "logo_background")
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, pair1, pair2, pair3)
             //check si on est connecté, si oui, redirection sur la mainactivity, sinon, sur le login
             if(currentUser != null){
                 val intentStartup = Intent(this, MainActivity::class.java);
