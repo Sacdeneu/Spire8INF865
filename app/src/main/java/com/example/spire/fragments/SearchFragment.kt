@@ -1,16 +1,37 @@
 package com.example.spire.fragments
 
+import android.app.Application
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.*
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.example.spire.PlaceHolderApi1
 import com.example.spire.R
 import com.example.spire.databinding.FragmentSearchBinding
+import org.json.JSONArray
+import retrofit2.Call
 import values.Datasource
+import retrofit2.Retrofit
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.spire.MainActivity
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+
+
+
 
 
 class SearchFragment : Fragment() {
@@ -22,10 +43,12 @@ class SearchFragment : Fragment() {
    // private lateinit var adapter2: ArrayAdapter<*>
     public val mylist = arrayListOf<String>()
     val gameName = arrayListOf<String>()
+    private var mQueue: RequestQueue? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
+        mQueue = Volley.newRequestQueue(this.context);
 
     }
 
@@ -53,6 +76,34 @@ class SearchFragment : Fragment() {
             layoutManager = LinearLayoutManager(activity)
             adapter = GameAdapter(gameList)
         }
+
+        fun jsonParseListGame() {
+
+            val url = "https://api.steampowered.com/ISteamApps/GetAppList/v2/?";
+
+            val request = JsonObjectRequest(
+                Request.Method.GET, url, null,
+                { response ->
+                    try {
+                        val jsonObject = response.getJSONObject("appList");
+                        val jsonArray = jsonObject.getJSONArray("apps")
+                        for (i in 0 until jsonArray.length()) {
+                            val game = jsonArray.getJSONObject(i)
+                            val appId = game.getString("appid")
+                            val name = game.getInt("name")
+
+                            //utilisation de l'app recup
+                        }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }) { error -> error.printStackTrace() }
+
+            mQueue?.add(request);
+        }
+
+
+
         /*gameName.add("far Cry 6")
         gameName.add("DoodleJump")
         gameName.add("BattleField 2042")

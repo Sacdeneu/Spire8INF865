@@ -26,6 +26,7 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ActivityCompat
 import com.example.spire.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity() {
     private var DELAY_TIME = 4000;
     private lateinit var binding:ActivityMainBinding
@@ -138,5 +139,20 @@ class MainActivity : AppCompatActivity() {
     fun buttonLinkGame(view : View){
         val GameSheetFragment = GameSheetFragment()
         replaceFragment(GameSheetFragment)
+    }
+}
+
+
+class PlaceholderPost1 {
+    val appId = 0
+    val name: String? = null
+
+
+    public fun getappId() : Int {
+        return appId;
+    }
+
+    public fun getnameApp() : String? {
+        return name;
     }
 }
