@@ -55,4 +55,5 @@
     <string name="forgot_password">Mot de passe oublié ?</string>
     <string name="create_account">Créer un compte</string>
     <string name="logo_spire">Logo Spire</string>
+    <string name="register_title">Inscription</string>
 </resources>

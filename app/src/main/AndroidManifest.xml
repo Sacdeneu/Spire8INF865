@@ -3,7 +3,7 @@
     package="com.example.spire">
 
 
-    <uses-permission android:name="aandroid.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon"
