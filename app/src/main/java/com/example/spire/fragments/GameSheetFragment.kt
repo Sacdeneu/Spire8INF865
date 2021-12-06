@@ -48,7 +48,8 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
     ): View? {
         _binding = FragmentGameSheetBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_game_sheet, container, false)
+        // return inflater.inflate(R.layout.fragment_game_sheet, container, false)
+        return binding.root
     }
 
 
@@ -81,7 +82,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
             total_score += score_list[i]
         }
         average_score = ((((total_score / score_list.size)* 100).toInt()).toDouble() / 100) //Calcul le score moyen
-        binding.gameScorePublic.text = "$average_score \n   /5"   //Affiche le score de la moyenne de tous les utilisateurs
+        binding.gameScorePublic.text = "$average_score \n /5"   //Affiche le score de la moyenne de tous les utilisateurs
     }
 
     override fun onDestroyView() {

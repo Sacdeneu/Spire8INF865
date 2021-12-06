@@ -18,7 +18,7 @@ class GameAdapter(val gameList: Array<String>) :
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.game_item, parent, false)
+            .inflate(R.layout.game_card, parent, false)
         return GameViewHolder(view)
     }
     override fun getItemCount(): Int {

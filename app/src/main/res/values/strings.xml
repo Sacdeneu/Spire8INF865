@@ -27,15 +27,41 @@
 
     <string-array name="games_name">
         <item>Far Cry 6</item>
-        <item>DoodleJump</item>
-        <item>BattleField 2042</item>
-        <item>The witcher 3</item>
-        <item>Skyrim</item>
-        <item>Fifa22</item>
-        <item>Resident Evil VIllAGE</item>
+        <item>Forza Horizon 5</item>
+        <item>Battlefield 2042</item>
+        <item>The Witcher 3: Wild Hunt</item>
+        <item>The Elder Scrolls V: Skyrim</item>
+        <item>FIFA 22</item>
+        <item>Resident Evil VILLAGE</item>
         <item>Deathloop</item>
         <item>Halo Infinite</item>
         <item>NBA 2K22</item>
+    </string-array>
+
+    <string-array name="games_publisher">
+        <item>Ubisoft</item>
+        <item>Xbox Game Studios</item>
+        <item>Electronic Arts</item>
+        <item>CD Projekt</item>
+        <item>Bethesda</item>
+        <item>Electronic Arts</item>
+        <item>Capcom</item>
+        <item>Bethesda</item>
+        <item>Xbox Game Studios</item>
+        <item>Take Two</item>
+    </string-array>
+
+    <string-array name="games_publishing_year">
+        <item>2021</item>
+        <item>2021</item>
+        <item>2021</item>
+        <item>2015</item>
+        <item>2011</item>
+        <item>2021</item>
+        <item>2021</item>
+        <item>2021</item>
+        <item>2021</item>
+        <item>2021</item>
     </string-array>
 
     <string-array name="my_games"></string-array>

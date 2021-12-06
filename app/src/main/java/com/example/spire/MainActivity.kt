@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.validate).visibility=VISIBLE
         findViewById<View>(R.id.cancel).visibility=VISIBLE
 
-        findViewById<View>(R.id.move_game).visibility=VISIBLE
+        //findViewById<View>(R.id.move_game).visibility=VISIBLE
     }
 
     fun buttonEditOrderListValidate(menu : MenuItem){
@@ -110,7 +110,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.validate).visibility=GONE
 
         findViewById<View>(R.id.cancel).visibility=GONE
-        findViewById<View>(R.id.move_game).visibility=GONE
+        //findViewById<View>(R.id.move_game).visibility=GONE
 
         findViewById<View>(R.id.add).visibility=VISIBLE
         findViewById<View>(R.id.share).visibility=VISIBLE
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<View>(R.id.cancel).visibility=GONE
 
         findViewById<View>(R.id.validate).visibility=GONE
-        findViewById<View>(R.id.move_game).visibility=GONE
+        //findViewById<View>(R.id.move_game).visibility=GONE
 
         findViewById<View>(R.id.add).visibility=VISIBLE
         findViewById<View>(R.id.share).visibility=VISIBLE
