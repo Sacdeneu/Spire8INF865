@@ -39,15 +39,17 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     //private lateinit var adapter: ArrayAdapter<*>
-   // private lateinit var adapter2: ArrayAdapter<*>
+    // private lateinit var adapter2: ArrayAdapter<*>
     public val mylist = arrayListOf<String>()
     val gameName = arrayListOf<String>()
     private var mQueue: RequestQueue? = null
+    private lateinit var search : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         mQueue = Volley.newRequestQueue(this.context);
+
 
     }
 
@@ -61,6 +63,7 @@ class SearchFragment : Fragment() {
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
+        search = binding.searchText.text.toString()
 
         return binding.root
 
@@ -76,7 +79,8 @@ class SearchFragment : Fragment() {
             adapter = GameAdapter(gameList)
         }
 
-        fun jsonParseListGame() {
+    }
+        private fun jsonParseListGame() {
 
             val url = "https://api.steampowered.com/ISteamApps/GetAppList/v2/?";
 
@@ -88,11 +92,40 @@ class SearchFragment : Fragment() {
                         val jsonArray = jsonObject.getJSONArray("apps")
                         for (i in 0 until jsonArray.length()) {
                             val game = jsonArray.getJSONObject(i)
-                            val appId = game.getString("appid")
-                            val name = game.getInt("name")
+
+                            val name = game.getString("name")
 
                             //utilisation de l'app recup
+                            if(search.contains(name.toRegex())){
+                                val appId = game.getInt("appid")
+
+                                jsonParseInfoGame(appId)
+                            }
                         }
+                    } catch (e: JSONException) {
+                        e.printStackTrace()
+                    }
+                }) { error -> error.printStackTrace() }
+
+            mQueue?.add(request);
+        }
+
+        private fun jsonParseInfoGame(id : Int){
+            val url = "http://steamspy.com/api.php?request=appdetails&appid=$id";
+
+            val request = JsonObjectRequest(
+                Request.Method.GET, url, null,
+                { response ->
+                    try {
+                        val jsonObject = response.getJSONObject("appList");
+
+                        val name = jsonObject.getString("name")
+                        val dev = jsonObject.getString("developer")
+                        val pub = jsonObject.getString("publisher")
+                        val genre = jsonObject.getString("genre")
+                        //val tags = jsonObject.getJSONArray("tags")
+
+
                     } catch (e: JSONException) {
                         e.printStackTrace()
                     }
@@ -154,7 +187,7 @@ class SearchFragment : Fragment() {
         })*/
 
 
-    }
+
 
 
     override fun onDestroyView() {
