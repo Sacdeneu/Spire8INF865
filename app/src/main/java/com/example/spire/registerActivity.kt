@@ -10,6 +10,16 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import java.util.HashMap
+
+
+
+
+
+
 
 class registerActivity : AppCompatActivity() {
     private lateinit var binding:ActivityRegisterBinding
@@ -50,6 +60,41 @@ class registerActivity : AppCompatActivity() {
                                         "Succesfull register",
                                         Toast.LENGTH_SHORT
                                     ).show()
+
+                                    val user = hashMapOf(
+                                        "imageURL" to "http://image.jpg",
+                                        "Username" to binding.mail.text.toString()
+                                    )
+                                    val db = FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                                        FirebaseFirestore.getInstance().collection("Users").document( it1.uid).set(user)
+                                            .addOnSuccessListener { documentReference ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Sucessfully in database",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Error Database",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                    }
+
+                                    val gamelist = hashMapOf(
+                                        "UserID" to (FirebaseAuth.getInstance().currentUser?.uid)
+                                    )
+                                    FirebaseFirestore.getInstance().collection("GameLists").add(gamelist)
+
+                                    val friends = hashMapOf(
+                                        "Friend0" to ""
+                                    )
+                                    FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                                        FirebaseFirestore.getInstance().collection("Friends")
+                                            .document(it1.uid).collection("FriendLists").add(friends)
+                                    }
                                     finish()
                                 }
                                 else{
@@ -58,7 +103,6 @@ class registerActivity : AppCompatActivity() {
                                         task.exception!!.message.toString(),
                                         Toast.LENGTH_SHORT).show()
                                 }
-
                             }
                         )
                 }
