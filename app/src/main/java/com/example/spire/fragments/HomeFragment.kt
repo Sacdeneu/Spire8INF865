@@ -5,12 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import com.example.spire.R
-import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.spire.databinding.FragmentGameSheetBinding
 import com.example.spire.databinding.FragmentHomeBinding
 import values.Datasource2
 
@@ -53,10 +49,10 @@ class HomeFragment : Fragment() {
         val gameList = Datasource2(this).getGameList()
         val recyclerView: RecyclerView = binding.recyclerGame
         //recyclerView.adapter = GameAdapter(gameList)
-        recyclerView.apply {
+        /*recyclerView.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = GameAdapter(gameList)
-        }
+        }*/
 
     }
 
