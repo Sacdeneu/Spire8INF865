@@ -27,7 +27,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         addPreferencesFromResource(R.xml.prefs)
+        val user = Firebase.auth.currentUser!!
+        val db = FirebaseFirestore.getInstance()
         val disconnectPref = findPreference("disconnect") as Preference?
+        val delete_Acount = findPreference("delete_Acount") as Preference?
+        val userAcount = findPreference("id_Compte") as Preference?
+
+        userAcount!!.setTitle(user.email)
+
         disconnectPref!!.setOnPreferenceClickListener {
             Firebase.auth.signOut()
             val logOutIntent = Intent(activity, LoginActivity::class.java)
@@ -35,28 +42,22 @@ class SettingsFragment : PreferenceFragmentCompat() {
             activity?.finish()
             true
         }
-        val delete_Acount = findPreference("delete_Acount") as Preference?
 
         delete_Acount!!.setOnPreferenceClickListener {
-            //val db = FirebaseAuth.getInstance().currentUser?.let { it1 ->
-           val db = FirebaseFirestore.getInstance()
-           val user = Firebase.auth.currentUser!!
-
             Firebase.auth.signOut()
-
-                db.collection("Users").document(user.uid).delete()
-                db.collection("GameLists").document(user.uid).delete()
-                db.collection("Friends").document(user.uid).delete()
-                user.delete()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            /*Toast.makeText(
-                            this@SettingsFragment,
-                            "Compte suprimé avec succes",
-                            Toast.LENGTH_SHORT
-                        ).show()*/
-                        }
+            db.collection("Users").document(user.uid).delete()
+            db.collection("GameLists").document(user.uid).delete()
+            db.collection("Friends").document(user.uid).delete()
+            user.delete()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        /*Toast.makeText(
+                        this@SettingsFragment,
+                        "Compte suprimé avec succes",
+                        Toast.LENGTH_SHORT
+                    ).show()*/
                     }
+                }
 
             val logOutIntent = Intent(activity, LoginActivity::class.java)
             startActivity(logOutIntent)

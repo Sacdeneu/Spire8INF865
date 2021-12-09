@@ -5,6 +5,9 @@
         android:title="Paramètres de compte"
         android:key="account">
         <Preference
+            android:key="id_Compte"
+            android:title="compte ID"/>
+        <Preference
             android:key="disconnect"
             android:title="Se déconnecter"/>
         <Preference

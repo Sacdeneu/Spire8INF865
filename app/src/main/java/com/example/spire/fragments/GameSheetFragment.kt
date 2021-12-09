@@ -1,5 +1,6 @@
 package com.example.spire.fragments
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -9,10 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
+import android.widget.Toast
 import com.example.spire.databinding.FragmentGameSheetBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
+
+
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -79,18 +86,31 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         api.GetGame(currentGameId).enqueue(object : Callback<Game> {
             override fun onResponse(
                 call: Call<Game>,
-                response: retrofit2.Response<Game>
+                response: Response<Game>
             ) {
                 binding.gameTitle.text = response.body()!!.name
                 binding.gameSummary.text = response.body()!!.description_raw
                 binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString()
                 Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
+                binding.addButton.setOnClickListener {
+                    FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                        FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)
+                            .update("${response.body()!!.name} ID", currentGameId)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d(TAG, "added")
+                        }
+                    }
+
+
+                }
             }
 
             override fun onFailure(call: Call<Game>, t: Throwable) {
             }
 
         })
+
+
     }
 
 
