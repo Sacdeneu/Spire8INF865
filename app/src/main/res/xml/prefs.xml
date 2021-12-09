@@ -7,6 +7,9 @@
         <Preference
             android:key="disconnect"
             android:title="Se déconnecter"/>
+        <Preference
+            android:key="delete_Acount"
+            android:title="Suprimer votre compte"/>
 
     </PreferenceCategory>
 </PreferenceScreen>
