@@ -2,8 +2,13 @@ package com.example.spire.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.*
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +18,9 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.spire.LoginActivity
 import com.example.spire.MainActivity
+import com.google.gson.GsonBuilder
 
 import org.json.JSONException;
 import retrofit2.Callback
@@ -27,7 +34,8 @@ class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private var mQueue: RequestQueue? = null
-    private var mIsLoading = false
+    public var mIsLoading = false
+    private var DELAY_TIME_TEXTCHANGED = 2500;
     private var mIsLastPage = false
     private var mCurrentPage = 0
     private val pageSize = 10
@@ -45,9 +53,6 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        /*val gameList = Datasource(this).getGameList()
-        val recyclerView: RecyclerView = recycler_Game
-        recyclerView.adapter = GameAdapter(gameList)*/
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         search = binding.searchText.text.toString()
 
@@ -58,14 +63,16 @@ class SearchFragment : Fragment() {
         (activity as MainActivity).adapterOnClick(game)
     }
     private fun showAllGames(games : List<Game>){
+        mIsLoading = true
         gameAdapter = GameAdapter(games, {game -> adapterOnClick(game)})
         (gameAdapter as GameAdapter).setList(games)
         binding.recyclerGame.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = gameAdapter
         }
-
+        mIsLoading = false
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -82,7 +89,8 @@ class SearchFragment : Fragment() {
                 call: Call<AllGameQuery>,
                 response: retrofit2.Response<AllGameQuery>
             ) {
-                showAllGames(response.body()!!.results)
+                if(!mIsLoading)
+                    showAllGames(response.body()!!.results)
 
                 val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
                 scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
@@ -92,6 +100,62 @@ class SearchFragment : Fragment() {
                     }
                 }
                 binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
+                binding.searchText.addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    }
+
+                    override fun afterTextChanged(p0: Editable?) {
+                        Handler().postDelayed({
+                            if(binding.searchText.text.trim().toString() != "")
+                                api.SearchGames(binding.searchText.text.trim().toString()).enqueue(object : Callback<AllGameQuery>{
+                                    override fun onResponse(
+                                        call: Call<AllGameQuery>,
+                                        response: Response<AllGameQuery>
+                                    ) {
+                                        if(!mIsLoading)
+                                            showAllGames(response.body()!!.results)
+                                    }
+
+                                    override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
+                                    }
+                                })
+                            else {
+
+                                api.fetchAllGames().enqueue(object : Callback<AllGameQuery> {
+                                    override fun onResponse(
+                                        call: Call<AllGameQuery>,
+                                        response: retrofit2.Response<AllGameQuery>
+                                    ) {
+                                        if (!mIsLoading)
+                                            showAllGames(response.body()!!.results)
+
+                                        scrollListener =
+                                            object :
+                                                EndlessRecyclerViewScrollListener(layoutManager) {
+                                                override fun onLoadMore(
+                                                    page: Int,
+                                                    totalItemsCount: Int,
+                                                    view: RecyclerView
+                                                ) {
+                                                    // Est trigger quand il faut ajouter des données à la liste (bas de la liste atteint)
+                                                    loadNextDataFromApi(page)
+                                                }
+                                            }
+                                        binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
+
+                                    }
+
+                                    override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
+
+                                    }
+                                })
+                            }
+                        }, DELAY_TIME_TEXTCHANGED.toLong());
+                        }
+                    })
             }
             override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
             }
@@ -100,6 +164,7 @@ class SearchFragment : Fragment() {
 
 
     }
+
 
     private fun loadNextDataFromApi(page: Int) {
         mIsLoading = true

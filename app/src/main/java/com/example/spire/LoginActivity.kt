@@ -28,7 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
             val editText  = dialogLayout.findViewById<EditText>(R.id.mdpOublieEditText)
             builder.setTitle("Mot de passe oublié ?")
-            builder.setMessage("Veuillez rentrer votre adresse e-mail pour obtenir un message de récupération")
+            builder.setMessage("Veuillez rentrer votre adresse e-mail pour obtenir un mail de récupération")
             builder.setView(dialogLayout)
             builder.setPositiveButton("OK") { dialogInterface, i ->
                 FirebaseAuth.getInstance().sendPasswordResetEmail(editText.text.toString().trim())
@@ -49,15 +49,19 @@ class LoginActivity : AppCompatActivity() {
     private fun login(view: android.view.View){
         val email= binding.editTextEmailAddress.text.toString()
         val password= binding.editTextPassword.text.toString()
-
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                val intent= Intent(this,MainActivity::class.java)
-                startActivity(intent)
-                finish()
+        if(email == "" || password == ""){
+            Toast.makeText(applicationContext, "Veuillez renseigner un identifiant et mot de passe", Toast.LENGTH_LONG).show()
+        }
+        else{
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    val intent= Intent(this,MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            }.addOnFailureListener { exception ->
+                Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
             }
-        }.addOnFailureListener { exception ->
-            Toast.makeText(applicationContext,exception.localizedMessage, Toast.LENGTH_LONG).show()
         }
     }
 

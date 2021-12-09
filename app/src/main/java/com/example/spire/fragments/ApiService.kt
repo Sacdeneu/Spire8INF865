@@ -20,4 +20,9 @@ interface ApiService {
     @GET("/api/games/{id}?key=b35f1a8dfd0f48e2a6379d1f942637b8")
     fun GetGame(@Path("id") id: Int?):Call<Game>
 
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&page_size=10")
+    fun SearchGames(@Query("search") searchQuery : String): Call<AllGameQuery>
+
+
+
 }
