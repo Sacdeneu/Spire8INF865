@@ -8,10 +8,7 @@ import android.view.*
 import android.view.View.*
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.annotation.NonNull
@@ -22,6 +19,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.spire.databinding.ActivityMainBinding
 import com.example.spire.fragments.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class MainActivity : AppCompatActivity() {
