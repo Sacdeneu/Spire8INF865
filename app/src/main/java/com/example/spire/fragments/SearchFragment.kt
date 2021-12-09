@@ -31,9 +31,9 @@ class SearchFragment : Fragment() {
     private val pageSize = 10
     private lateinit var search : String
 
+    private var scrollListener: EndlessRecyclerViewScrollListener? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // initialise loading state
         mIsLoading = false;
         mIsLastPage = false;
@@ -72,7 +72,8 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.recyclerGame.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+        /*binding.recyclerGame.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if(dy > 0){
@@ -84,7 +85,7 @@ class SearchFragment : Fragment() {
                     }
                 }
             }
-        })
+        })*/
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
@@ -99,6 +100,16 @@ class SearchFragment : Fragment() {
                 response: retrofit2.Response<AllGameQuery>
             ) {
                 showAllGames(response.body()!!.results)
+
+                val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
+                scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+                    override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
+                        // Triggered only when new data needs to be appended to the list
+                        // Add whatever code is needed to append new items to the bottom of the list
+                        loadNextDataFromApi(page)
+                    }
+                }
+                binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
             }
 
             override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
@@ -107,6 +118,42 @@ class SearchFragment : Fragment() {
 
         })
 
+
+    }
+
+    private fun loadNextDataFromApi(page: Int) {
+// change loading state
+        // change loading state
+        mIsLoading = true
+        Log.d("NUMBER", page.toString())
+        // update recycler adapter with next page
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://rawg.io")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        val api = retrofit.create(ApiService::class.java)
+
+        api.GetPage(page).enqueue(object : Callback<AllGameQuery>{
+            override fun onResponse(call: Call<AllGameQuery>, response: Response<AllGameQuery>) {
+                val result = response.body()
+                if(result == null)
+                    return
+                else
+                    (gameAdapter as GameAdapter).addAll(result.results)
+
+                mIsLoading = false
+                if(result.next == null){
+                    mIsLastPage = true
+                }
+                else{
+                    mIsLastPage = false
+                }
+            }
+            override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
+            }
+
+        })
     }
 
     private fun loadMoreItems(isFirstPage: Boolean) {
@@ -114,7 +161,7 @@ class SearchFragment : Fragment() {
         // change loading state
         mIsLoading = true
         mCurrentPage = mCurrentPage + 1
-
+        Log.d("NUMBER", mCurrentPage.toString())
         // update recycler adapter with next page
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
