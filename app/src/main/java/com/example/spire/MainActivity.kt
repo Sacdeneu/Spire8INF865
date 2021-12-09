@@ -143,6 +143,7 @@ class MainActivity : AppCompatActivity() {
         if(newFrag != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.fragment_container, newFrag)
+                addToBackStack(null)
                 commit()
             }
         }

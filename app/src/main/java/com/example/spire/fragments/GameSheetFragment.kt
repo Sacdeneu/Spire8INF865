@@ -10,6 +10,7 @@ import android.view.ViewGroup
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
 import com.example.spire.databinding.FragmentGameSheetBinding
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
@@ -83,7 +84,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
                 binding.gameTitle.text = response.body()!!.name
                 binding.gameSummary.text = response.body()!!.description_raw
                 binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString()
-
+                Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
             }
 
             override fun onFailure(call: Call<Game>, t: Throwable) {
@@ -91,6 +92,8 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
 
         })
     }
+
+
 
 
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {  //Lorsque la note du jeu change :

@@ -6,10 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
+import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import kotlin.coroutines.coroutineContext
 
 class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) -> Unit) :
@@ -31,6 +37,8 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
     class GameViewHolder(itemView: View, val onClick: (Game) -> Unit) : RecyclerView.ViewHolder(itemView){
         private val gameTextView: TextView = itemView.findViewById(R.id.game_text)
         private val buttonView: Button = itemView.findViewById(R.id.game_sheet_button)
+        private val gameImage: ImageView = itemView.findViewById(R.id.game_image)
+        private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
 
         private var currentGame: Game? = null
 
@@ -44,6 +52,26 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
         //binding, modifie le nom du jeu pour la valeur dans l'API et ajoute un listener on click sur le bouton voir le jeu
         fun bind(game: Game){
             gameTextView.text = game.name
+            Picasso.get().load(game.background_image).into(gameImage)
+            val retrofit = Retrofit.Builder()
+                .baseUrl("https://rawg.io")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            //on récupère grace à l'ID passé en argument les détails du jeu et on les affiche
+            val api = retrofit.create(ApiService::class.java)
+            api.GetGame(game.id).enqueue(object : Callback<Game> {
+                override fun onResponse(
+                    call: Call<Game>,
+                    response: retrofit2.Response<Game>
+                ) {
+                    publisherTextView.text = response.body()!!.publishers[0].name
+                }
+
+                override fun onFailure(call: Call<Game>, t: Throwable) {
+                }
+
+            })
             buttonView.setOnClickListener {
                 onClick(game)
             }
