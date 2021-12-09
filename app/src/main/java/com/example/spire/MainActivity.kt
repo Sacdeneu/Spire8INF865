@@ -14,24 +14,20 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.example.spire.fragments.HomeFragment
-import com.example.spire.fragments.GameSheetFragment
-import com.example.spire.fragments.SettingsFragment
-import com.example.spire.fragments.FriendsFragment
 import androidx.annotation.NonNull
-import com.example.spire.fragments.PopUpValidateNewOrder
 import com.google.android.material.navigation.NavigationBarView
-import com.example.spire.fragments.SearchFragment
 import androidx.core.util.Pair
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentTransaction
 import com.example.spire.databinding.ActivityMainBinding
+import com.example.spire.fragments.*
 
 
 class MainActivity : AppCompatActivity() {
     private var DELAY_TIME = 4000;
     private lateinit var binding:ActivityMainBinding
-
+    val GAME_ID = "GAME_ID"
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -139,9 +135,17 @@ class MainActivity : AppCompatActivity() {
         val PopUpValidateNewOrder = PopUpValidateNewOrder()
         replaceFragment(PopUpValidateNewOrder)
     }
-
-    fun buttonLinkGame(view : View){
-        val GameSheetFragment = GameSheetFragment()
-        replaceFragment(GameSheetFragment)
+    fun adapterOnClick(game: Game) {
+        val newFrag = GameSheetFragment()
+        val args = Bundle()
+        args.putInt(GAME_ID, game.id)
+        newFrag.arguments = args
+        if(newFrag != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, newFrag)
+                addToBackStack(null)
+                commit()
+            }
+        }
     }
 }

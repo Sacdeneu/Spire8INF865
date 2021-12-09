@@ -2,16 +2,19 @@ package com.example.spire.fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.spire.R
 //import kotlinx.android.synthetic.main.fragment_home.home
-import android.widget.ImageButton
 import android.widget.RatingBar
-import com.example.spire.databinding.ActivityMainBinding
 import com.example.spire.databinding.FragmentGameSheetBinding
+import com.squareup.picasso.Picasso
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,6 +27,8 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
+    var currentGameId: Int? = null
+
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -40,6 +45,10 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        val bundle: Bundle? = this.arguments
+        if (bundle != null) {
+            currentGameId = bundle.getInt("GAME_ID")
+        }
     }
 
     override fun onCreateView(
@@ -52,7 +61,6 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameAdvancement.text = "Terminé"
@@ -60,7 +68,32 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         binding.gameScoreUser.text = "4,0 \n /5"
         binding.gameRatingBar.onRatingBarChangeListener = this    //Ecoute les changements de note
         averageScore(score_list)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://rawg.io")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //on récupère grace à l'ID passé en argument les détails du jeu et on les affiche
+        val api = retrofit.create(ApiService::class.java)
+        api.GetGame(currentGameId).enqueue(object : Callback<Game> {
+            override fun onResponse(
+                call: Call<Game>,
+                response: retrofit2.Response<Game>
+            ) {
+                binding.gameTitle.text = response.body()!!.name
+                binding.gameSummary.text = response.body()!!.description_raw
+                binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString()
+                Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
+            }
+
+            override fun onFailure(call: Call<Game>, t: Throwable) {
+            }
+
+        })
     }
+
+
 
 
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {  //Lorsque la note du jeu change :

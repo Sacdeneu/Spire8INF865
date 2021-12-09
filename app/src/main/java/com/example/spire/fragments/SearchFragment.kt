@@ -1,5 +1,6 @@
 package com.example.spire.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -12,6 +13,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.spire.MainActivity
 
 import org.json.JSONException;
 import retrofit2.Callback
@@ -52,9 +54,11 @@ class SearchFragment : Fragment() {
         return binding.root
 
     }
-
+    private fun adapterOnClick(game: Game) {
+        (activity as MainActivity).adapterOnClick(game)
+    }
     private fun showAllGames(games : List<Game>){
-        gameAdapter = GameAdapter(games)
+        gameAdapter = GameAdapter(games, {game -> adapterOnClick(game)})
         (gameAdapter as GameAdapter).setList(games)
         binding.recyclerGame.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -63,29 +67,8 @@ class SearchFragment : Fragment() {
 
     }
 
-    private fun isLastVisable(): Boolean {
-        val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
-        val pos = layoutManager.findLastCompletelyVisibleItemPosition()
-        val numItems = gameAdapter!!.itemCount
-        return (pos >= numItems - 1)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        /*binding.recyclerGame.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                if(dy > 0){
-                    if(isLastVisable()){
-                        loadMoreItems(true)
-                    }
-                    else{
-                        loadMoreItems(false)
-                    }
-                }
-            }
-        })*/
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
@@ -104,16 +87,13 @@ class SearchFragment : Fragment() {
                 val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
                 scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
-                        // Triggered only when new data needs to be appended to the list
-                        // Add whatever code is needed to append new items to the bottom of the list
+                        // Est trigger quand il faut ajouter des données à la liste (bas de la liste atteint)
                         loadNextDataFromApi(page)
                     }
                 }
                 binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
             }
-
             override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
-                TODO("Not yet implemented")
             }
 
         })
@@ -122,11 +102,9 @@ class SearchFragment : Fragment() {
     }
 
     private fun loadNextDataFromApi(page: Int) {
-// change loading state
-        // change loading state
         mIsLoading = true
         Log.d("NUMBER", page.toString())
-        // update recycler adapter with next page
+        // update recycler adapter avec la prochaine page
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())
@@ -156,38 +134,9 @@ class SearchFragment : Fragment() {
         })
     }
 
-    private fun loadMoreItems(isFirstPage: Boolean) {
-        // change loading state
-        // change loading state
-        mIsLoading = true
-        mCurrentPage = mCurrentPage + 1
-        Log.d("NUMBER", mCurrentPage.toString())
-        // update recycler adapter with next page
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rawg.io")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        val api = retrofit.create(ApiService::class.java)
 
-        api.GetPage(mCurrentPage).enqueue(object : Callback<AllGameQuery>{
-            override fun onResponse(call: Call<AllGameQuery>, response: Response<AllGameQuery>) {
-                val result = response.body()
-                if(result == null)
-                    return
-                else if(!isFirstPage)
-                    (gameAdapter as GameAdapter).addAll(result.results)
 
-                mIsLoading = false
-                if(result.next == null){
-                    mIsLastPage = true
-                }
-                else{
-                    mIsLastPage = false
-                }
-            }
-            override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
-            }
 
         })
     }
