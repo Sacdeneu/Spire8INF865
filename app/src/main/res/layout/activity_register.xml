@@ -60,7 +60,7 @@
                         android:inputType="textEmailAddress"
                         android:layout_margin="10dp"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:hint="Adresse mail">
+                        android:hint="@string/mail_hint">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/mail"

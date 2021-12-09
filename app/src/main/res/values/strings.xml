@@ -107,4 +107,5 @@
     <string name="create_account">Créer un compte</string>
     <string name="logo_spire">Logo Spire</string>
     <string name="register_title">Inscription</string>
+    <string name="mail_hint">Adresse mail</string>
 </resources>
