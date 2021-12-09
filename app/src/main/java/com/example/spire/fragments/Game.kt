@@ -9,6 +9,6 @@ data class Game(
     val released : Date, // date de sortie (jeu détaillé)
     val background_image : String, // image de fond
     val description_raw : String, // description texte
-    val publishers : List<Publisher>, // liste d'éditeurs
+    var publishers : List<Publisher>, // liste d'éditeurs
     val developers : List<Developer> // liste de dévelopeurs
     )

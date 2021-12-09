@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
+import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +29,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
         gamelist = list as ArrayList<Game>
         notifyDataSetChanged()
     }
+
 
     fun addAll(newList: List<Game>) { //ajoute tous les éléments d'une liste à la liste interne de l'adapter
         val lastIndex: Int = gameList.size - 1
@@ -55,7 +57,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
             Picasso.get().load(game.background_image).into(gameImage)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
                 .build()
 
             //on récupère grace à l'ID passé en argument les détails du jeu et on les affiche
@@ -65,7 +67,9 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
                     call: Call<Game>,
                     response: retrofit2.Response<Game>
                 ) {
-                    publisherTextView.text = response.body()!!.publishers[0].name
+                    Log.d("response", response.body().toString())
+                    if(response.body()!!.publishers[0] != null)
+                        publisherTextView.text = response.body()!!.publishers[0]!!.name
                 }
 
                 override fun onFailure(call: Call<Game>, t: Throwable) {
