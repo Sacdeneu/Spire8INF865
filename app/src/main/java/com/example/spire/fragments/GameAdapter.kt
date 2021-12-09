@@ -57,7 +57,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
             Picasso.get().load(game.background_image).into(gameImage)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
-                .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
             //on récupère grace à l'ID passé en argument les détails du jeu et on les affiche

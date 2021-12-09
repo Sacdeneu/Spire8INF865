@@ -79,7 +79,7 @@ class SearchFragment : Fragment() {
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
-            .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val api = retrofit.create(ApiService::class.java)
