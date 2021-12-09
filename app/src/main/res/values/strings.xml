@@ -4,6 +4,7 @@
     <string name="game_image_desc">Game poster</string>
     <string name="app_name">Spire</string>
     <string name="home">Home</string>
+    <string name="friends">Friends</string>
     <string name="settings">Settings</string>
     <string name="game_sheet">Fiche de jeu</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -62,6 +63,29 @@
         <item>2021</item>
         <item>2021</item>
         <item>2021</item>
+    </string-array>
+
+    <string-array name="friends_name">
+        <item>François</item>
+        <item>Franck</item>
+        <item>Baptiste</item>
+        <item>Théo</item>
+        <item>Thomas</item>
+        <item>Mathieu</item>
+        <item>Mathéo</item>
+        <item>Daniel</item>
+        <item>Pierre</item>
+        <item>Noa</item>
+        <item>François</item>
+        <item>Franck</item>
+        <item>Baptiste</item>
+        <item>Théo</item>
+        <item>Thomas</item>
+        <item>Mathieu</item>
+        <item>René</item>
+        <item>Daniel</item>
+        <item>Pierre</item>
+        <item>Noa</item>
     </string-array>
 
     <string-array name="my_games"></string-array>
