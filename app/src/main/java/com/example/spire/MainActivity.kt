@@ -151,4 +151,65 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+	
+	fun buttonAddFriends(view: View){
+        if(findViewById<View>(R.id.searchArea).visibility == GONE){
+            findViewById<View>(R.id.searchArea).visibility = VISIBLE
+        }
+        else{
+            findViewById<View>(R.id.searchArea).visibility = GONE
+        }
+    }
+
+    fun buttonValidateSearch(view: View){
+        val searchText : String = findViewById<EditText>(R.id.searchAreaField).text.toString()
+
+        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+            FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("Username", searchText as String).get().addOnSuccessListener { query ->
+                    for (queryResult in query) {
+                        FirebaseFirestore.getInstance().collection("Friends").document(it1.uid)
+                            .get().addOnSuccessListener { document ->
+                                document.reference.update(
+                                    "friends",
+                                    FieldValue.arrayUnion(queryResult.get("Username"))
+                                )
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Ami ajouté avec succès",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .addOnCanceledListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Erreur : Ami(e) déjà dans la liste",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+                }
+                .addOnCanceledListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur : Ami(e) inexistant(e)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur inconnu",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    fun buttonFriendGameList(view: View){
+        val friendId : String = findViewById<TextView>(R.id.friend_text).text.toString()
+
+        FirebaseFirestore.getInstance().collection("GameLists").document(friendId).get()
+
+    }
 }
