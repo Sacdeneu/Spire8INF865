@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.example.spire.fragments.HomeFragment
 import com.example.spire.fragments.GameSheetFragment
 import com.example.spire.fragments.SettingsFragment
+import com.example.spire.fragments.FriendsFragment
 import androidx.annotation.NonNull
 import com.example.spire.fragments.PopUpValidateNewOrder
 import com.google.android.material.navigation.NavigationBarView
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         val settingsFragment = SettingsFragment()
         val gameSheetFragment = GameSheetFragment()
         val SearchFragment = SearchFragment()
+        val FriendsFragment = FriendsFragment()
 
 
 
@@ -56,6 +58,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.ic_home -> replaceFragment(homeFragment)
+                R.id.ic_friendlist -> replaceFragment(FriendsFragment)
                 R.id.ic_settings -> replaceFragment(settingsFragment)
                 /*R.id.ic_game_sheet -> replaceFragment(gameSheetFragment)*/
                 R.id.ic_search_game -> replaceFragment(SearchFragment)
