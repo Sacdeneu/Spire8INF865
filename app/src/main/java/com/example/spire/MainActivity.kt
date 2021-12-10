@@ -8,10 +8,7 @@ import android.view.*
 import android.view.View.*
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.annotation.NonNull
@@ -22,6 +19,9 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.spire.databinding.ActivityMainBinding
 import com.example.spire.fragments.*
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class MainActivity : AppCompatActivity() {
@@ -150,5 +150,66 @@ class MainActivity : AppCompatActivity() {
                 commit()
             }
         }
+    }
+	
+	fun buttonAddFriends(view: View){
+        if(findViewById<View>(R.id.searchArea).visibility == GONE){
+            findViewById<View>(R.id.searchArea).visibility = VISIBLE
+        }
+        else{
+            findViewById<View>(R.id.searchArea).visibility = GONE
+        }
+    }
+
+    fun buttonValidateSearch(view: View){
+        val searchText : String = findViewById<EditText>(R.id.searchAreaField).text.toString()
+
+        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+            FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("Username", searchText as String).get().addOnSuccessListener { query ->
+                    for (queryResult in query) {
+                        FirebaseFirestore.getInstance().collection("Friends").document(it1.uid)
+                            .get().addOnSuccessListener { document ->
+                                document.reference.update(
+                                    "friends",
+                                    FieldValue.arrayUnion(queryResult.get("Username"))
+                                )
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Ami ajouté avec succès",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .addOnCanceledListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Erreur : Ami(e) déjà dans la liste",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+                }
+                .addOnCanceledListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur : Ami(e) inexistant(e)",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur inconnu",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+    }
+
+    fun buttonFriendGameList(view: View){
+        val friendId : String = findViewById<TextView>(R.id.friend_text).text.toString()
+
+        FirebaseFirestore.getInstance().collection("GameLists").document(friendId).get()
+
     }
 }

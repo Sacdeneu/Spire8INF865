@@ -3,9 +3,11 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/friend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp">
+
         <ImageView
             android:id="@+id/friend_image"
             android:layout_width="50dp"
@@ -18,9 +20,10 @@
             android:layout_height="match_parent"
             android:paddingHorizontal="20dp"
             android:gravity="center_vertical"
-            android:textSize="32sp"
+            android:textSize="20sp"
+            android:onClick="buttonFriendGameList"
             android:textStyle="bold"/>
-    </LinearLayout>
+        </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

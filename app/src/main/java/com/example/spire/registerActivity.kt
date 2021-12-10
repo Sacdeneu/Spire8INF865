@@ -53,35 +53,34 @@ class registerActivity : AppCompatActivity() {
                         .addOnCompleteListener(
                             OnCompleteListener<AuthResult>{task ->
                                 if(task.isSuccessful) {
-                                    //val firebaseUser: FirebaseUser = task.result!!.user!!
+                                    val firebaseUser: FirebaseUser = task.result!!.user!!
 
-                                    /*Toast.makeText(
+                                    Toast.makeText(
                                         this@registerActivity,
                                         "Succesfull register",
                                         Toast.LENGTH_SHORT
-                                    ).show()*/
+                                    ).show()
 
                                     val user = hashMapOf(
                                         "imageURL" to "http://image.jpg",
                                         "Username" to binding.mail.text.toString()
                                     )
-                                    FirebaseAuth.getInstance().currentUser?.let { it1 ->
-                                    FirebaseFirestore.getInstance().collection("Users").document(it1.uid)
-                                        .set(user)
-                                        .addOnSuccessListener { documentReference ->
-                                            Toast.makeText(
-                                                this@registerActivity,
-                                                "Sucessfully in database",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
-                                        .addOnFailureListener { e ->
-                                            Toast.makeText(
-                                                this@registerActivity,
-                                                "Error Database",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                        }
+                                    val db = FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                                        FirebaseFirestore.getInstance().collection("Users").document( it1.uid).set(user)
+                                            .addOnSuccessListener { documentReference ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Sucessfully in database",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Error Database",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
                                     }
 
                                     val gamelist = hashMapOf(
@@ -90,11 +89,25 @@ class registerActivity : AppCompatActivity() {
                                     FirebaseFirestore.getInstance().collection("GameLists").add(gamelist)
 
                                     val friends = hashMapOf(
-                                        "Friend0" to ""
+                                        "friends" to arrayListOf<String>("Michel","Gné")
                                     )
                                     FirebaseAuth.getInstance().currentUser?.let { it1 ->
                                         FirebaseFirestore.getInstance().collection("Friends")
-                                            .document(it1.uid).collection("FriendLists").add(friends)
+                                            .document(it1.uid).set(friends)
+                                            .addOnSuccessListener { documentReference ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Succes",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Toast.makeText(
+                                                    this@registerActivity,
+                                                    "Error",
+                                                    Toast.LENGTH_SHORT
+                                                ).show()
+                                            }
                                     }
                                     finish()
                                 }
