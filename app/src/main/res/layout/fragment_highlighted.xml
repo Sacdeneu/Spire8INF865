@@ -23,7 +23,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/purple_500"/>
+            android:background="@color/darkblue"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_Game"
