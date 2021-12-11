@@ -1,6 +1,8 @@
 package com.example.spire.fragments
 
 import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,6 +40,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
     class GameViewHolder(itemView: View, val onClick: (Game) -> Unit) : RecyclerView.ViewHolder(itemView){
         private val gameTextView: TextView = itemView.findViewById(R.id.game_text)
         private val buttonView: Button = itemView.findViewById(R.id.game_sheet_button)
+        private val buttonViewadd: Button = itemView.findViewById(R.id.addButton)
         private val gameImage: ImageView = itemView.findViewById(R.id.game_image)
         private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
 
@@ -65,6 +71,16 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
                 ) {
                     if(response.body()!!.publishers[0] != null)
                         publisherTextView.text = response.body()!!.publishers[0]!!.name
+                    buttonViewadd.setOnClickListener {
+                        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                            FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)
+                                .update("${response.body()!!.name} ID", game.id)
+                                .addOnSuccessListener { documentReference ->
+                                    Log.d(ContentValues.TAG, "added")
+                                }
+                        }
+
+                    }
                 }
 
                 override fun onFailure(call: Call<Game>, t: Throwable) {
@@ -74,6 +90,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
             buttonView.setOnClickListener {
                 onClick(game)
             }
+
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
