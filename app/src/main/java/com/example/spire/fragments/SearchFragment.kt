@@ -59,8 +59,10 @@ class SearchFragment : Fragment() {
         return binding.root
 
     }
+
+
     private fun adapterOnClick(game: Game) {
-        (activity as MainActivity).adapterOnClick(game)
+        (activity as MainActivity).adapterOnClick(game) //passe la fonction onclick au mainactivity pour rediriger sur le fragment de gamesheet au clic
     }
     private fun showAllGames(games : List<Game>){
         mIsLoading = true
@@ -107,8 +109,8 @@ class SearchFragment : Fragment() {
                     override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
 
-                    override fun afterTextChanged(p0: Editable?) {
-                        Handler().postDelayed({
+                    override fun afterTextChanged(p0: Editable?) { //est trigger quand on change le texte pour la recherche
+                        Handler().postDelayed({ //handler mis en place car sinon les données changent trop vite et l'adapter n'arrive plus à suivre
                             if(binding.searchText.text.trim().toString() != "")
                                 api.SearchGames(binding.searchText.text.trim().toString()).enqueue(object : Callback<AllGameQuery>{
                                     override fun onResponse(
@@ -122,7 +124,7 @@ class SearchFragment : Fragment() {
                                     override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
                                     }
                                 })
-                            else {
+                            else { //si on a supprimé notre texte et que le champ est vide, on repart sur la liste basique avec scroll listener
 
                                 api.fetchAllGames().enqueue(object : Callback<AllGameQuery> {
                                     override fun onResponse(
@@ -132,7 +134,7 @@ class SearchFragment : Fragment() {
                                         if (!mIsLoading)
                                             showAllGames(response.body()!!.results)
 
-                                        scrollListener =
+                                        scrollListener = //recréation du scrollListener
                                             object :
                                                 EndlessRecyclerViewScrollListener(layoutManager) {
                                                 override fun onLoadMore(
@@ -168,7 +170,6 @@ class SearchFragment : Fragment() {
 
     private fun loadNextDataFromApi(page: Int) {
         mIsLoading = true
-        Log.d("NUMBER", page.toString())
         // update recycler adapter avec la prochaine page
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
@@ -183,7 +184,7 @@ class SearchFragment : Fragment() {
                 if(result == null)
                     return
                 else
-                    (gameAdapter as GameAdapter).addAll(result.results)
+                    (gameAdapter as GameAdapter).addAll(result.results) //ajout des  données de la nouvelle page dans l'adapter
 
                 mIsLoading = false
                 if(result.next == null){

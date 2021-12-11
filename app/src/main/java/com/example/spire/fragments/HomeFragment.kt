@@ -38,14 +38,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+
     private var param1: String? = null
     private var param2: String? = null
     private var homeGameAdapter: RecyclerView.Adapter<GameAdapter.GameViewHolder>? = null
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    var gameList = mutableListOf<Game>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -81,8 +80,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gameIDList = arrayListOf<Int>()
-        var gameList = arrayListOf<Game>()
+        val gameIDList = arrayListOf<Int>() //liste des ID de jeux
 
         FirebaseAuth.getInstance().currentUser?.let { it1 ->
             FirebaseFirestore.getInstance().collection("GameLists")
@@ -93,10 +91,10 @@ class HomeFragment : Fragment() {
                         //si la clé n'est pas le UserID on ajoute l'ID du jeu dans le tableau
                         if (key != "UserID") {
                             val convertedID = value.toInt()
-                            gameIDList.add(convertedID)
+                            gameIDList.add(convertedID) //on ajoute tous les ID de jeu de l'user dans gameIDList
                         }
                     }
-                    transferDataToRecyclerView(gameIDList)
+                    transferDataToRecyclerView(gameIDList) //ASYNCHRONE -> on doit attendre que les GameID soient prêts
 
                 }
         }
@@ -109,36 +107,36 @@ class HomeFragment : Fragment() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create()) //on ajoute un adapter spécial pour prendre en compte les Observers de RxJava3
             .build()
 
         val backendApi = retrofit.create(ApiService::class.java)
         val gameList = arrayListOf<Game>()
         val requests = arrayListOf<Observable<*>>()
         for(element in gameidList) {
-            val item = backendApi.GetObservableGame(element) as Observable<*>
+            val item = backendApi.GetObservableGame(element) as Observable<*> //chaque requête de jeu à partir de son ID est stockée dans requests
             requests.add(item)
         }
-        Observable
-            .zip(requests) {args -> Arrays.asList(args)}
+        Observable //on zip nos requêtes pour les executer toutes une par une de manière synchrone (car impossible de le faire de manière asynchrone dans une boucle for)
+            .zip(requests) {args -> listOf(args) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe ({
 
-                val response = it[0]
+                val response = it[0] // réponse cumulée de toute les requêtes
 
                 response.forEach {game ->
-                    gameList.add(game as Game)
+                    gameList.add(game as Game) //chaque réponse est stockée dans la gameList
                 }
                 if(gameList.size > 0 ){
                     binding.TextViewNoGameAdded.visibility = View.GONE
                 }
                 else{
-                    binding.TextViewNoGameAdded.visibility = View.VISIBLE
+                    binding.TextViewNoGameAdded.visibility = View.VISIBLE //message indiquant qu'il faut ajouter un jeu car la liste est vide
                 }
-                showAllGames(gameList)
+                showAllGames(gameList) //on génère la recyclerView
             },{
-                // do something if there is an error
+                // si erreur
             })
 
 
