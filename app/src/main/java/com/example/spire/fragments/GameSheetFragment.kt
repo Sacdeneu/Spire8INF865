@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
-import android.widget.Toast
 import com.example.spire.databinding.FragmentGameSheetBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

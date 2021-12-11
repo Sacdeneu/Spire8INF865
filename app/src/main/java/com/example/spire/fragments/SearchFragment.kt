@@ -64,9 +64,9 @@ class SearchFragment : Fragment() {
     }
     private fun showAllGames(games : List<Game>){
         mIsLoading = true
-        gameAdapter = GameAdapter(games, {game -> adapterOnClick(game)})
+        gameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
         (gameAdapter as GameAdapter).setList(games)
-        binding.recyclerGame.apply {
+        binding.recyclerSearchGame.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = gameAdapter
         }
@@ -92,14 +92,14 @@ class SearchFragment : Fragment() {
                 if(!mIsLoading)
                     showAllGames(response.body()!!.results)
 
-                val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
+                val layoutManager = binding.recyclerSearchGame.layoutManager as LinearLayoutManager
                 scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                         // Est trigger quand il faut ajouter des données à la liste (bas de la liste atteint)
                         loadNextDataFromApi(page)
                     }
                 }
-                binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
+                binding.recyclerSearchGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
                 binding.searchText.addTextChangedListener(object : TextWatcher {
                     override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     }
@@ -144,7 +144,7 @@ class SearchFragment : Fragment() {
                                                     loadNextDataFromApi(page)
                                                 }
                                             }
-                                        binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
+                                        binding.recyclerSearchGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
 
                                     }
 

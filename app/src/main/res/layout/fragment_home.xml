@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".fragments.SearchFragment">
+        tools:context=".fragments.HomeFragment">
 
         <LinearLayout
             android:id="@+id/Search"
@@ -13,8 +13,17 @@
             android:layout_margin="0dp"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/TextViewNoGameAdded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Liste vide, ajoutez des jeux dès maintenant via la page de recherche !"
+                android:textSize="20sp"
+                android:visibility="gone"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_Game"
+                android:id="@+id/recycler_HomeGame"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>

@@ -26,7 +26,7 @@
             android:background="@color/purple_500"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_Game"
+            android:id="@+id/recycler_HighlightedGame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

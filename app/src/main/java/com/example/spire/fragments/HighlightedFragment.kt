@@ -61,9 +61,9 @@ class HighlightedFragment : Fragment() {
         (activity as MainActivity).adapterOnClick(game)
     }
     private fun showAllGames(games : List<Game>){
-        gameAdapter = GameAdapter(games, {game -> adapterOnClick(game)})
+        gameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
         (gameAdapter as GameAdapter).setList(games)
-        binding.recyclerGame.apply {
+        binding.recyclerHighlightedGame.apply {
             layoutManager = LinearLayoutManager(activity)
             adapter = gameAdapter
         }
@@ -71,7 +71,7 @@ class HighlightedFragment : Fragment() {
     }
 
     private fun isLastVisable(): Boolean {
-        val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
+        val layoutManager = binding.recyclerHighlightedGame.layoutManager as LinearLayoutManager
         val pos = layoutManager.findLastCompletelyVisibleItemPosition()
         val numItems = gameAdapter!!.itemCount
         return (pos >= numItems - 1)
@@ -93,7 +93,7 @@ class HighlightedFragment : Fragment() {
             ) {
                 showAllGames(response.body()!!.results)
 
-                val layoutManager = binding.recyclerGame.layoutManager as LinearLayoutManager
+                val layoutManager = binding.recyclerHighlightedGame.layoutManager as LinearLayoutManager
                 scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
                     override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                         // Triggered only when new data needs to be appended to the list
@@ -101,7 +101,7 @@ class HighlightedFragment : Fragment() {
                         loadNextDataFromApi(page)
                     }
                 }
-                binding.recyclerGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
+                binding.recyclerHighlightedGame.addOnScrollListener(scrollListener as EndlessRecyclerViewScrollListener);
             }
 
             override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {

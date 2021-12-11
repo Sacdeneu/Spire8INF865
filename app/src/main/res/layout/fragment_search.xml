@@ -22,7 +22,7 @@
             android:textSize="30sp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_Game"
+            android:id="@+id/recycler_SearchGame"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

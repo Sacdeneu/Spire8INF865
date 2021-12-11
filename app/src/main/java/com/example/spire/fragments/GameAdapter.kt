@@ -1,23 +1,19 @@
 package com.example.spire.fragments
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
-import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.coroutines.coroutineContext
 
 class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) -> Unit) :
     RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
@@ -67,7 +63,6 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
                     call: Call<Game>,
                     response: retrofit2.Response<Game>
                 ) {
-                    Log.d("response", response.body().toString())
                     if(response.body()!!.publishers[0] != null)
                         publisherTextView.text = response.body()!!.publishers[0]!!.name
                 }
