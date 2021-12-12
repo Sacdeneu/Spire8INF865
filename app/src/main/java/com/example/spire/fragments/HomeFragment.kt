@@ -87,12 +87,15 @@ class HomeFragment : Fragment() {
                 .document(it1.uid).get().addOnSuccessListener { document ->
                     //récupération data dans la gamelist
                     if(document.data != null){
-                        val map: Map<String, Long> = document.data as Map<String, Long>
+                        val map: Map<String, Any?> = document.data as Map<String, Any?>
                         for ((key, value) in map) {
                             //si la clé n'est pas le UserID on ajoute l'ID du jeu dans le tableau
                             if (key != "UserID") { //on ne stocke pas le UID de l'user dans notre liste
-                                val convertedID = value.toInt()
-                                gameIDList.add(convertedID) //on ajoute tous les ID de jeu de l'user dans gameIDList
+                                if ((value.toString().toIntOrNull() != null)) {
+                                    val convertedID = value as Long //long (BDD)
+                                    val convertedIntID = convertedID.toInt() //int (API)
+                                    gameIDList.add(convertedIntID) //on ajoute tous les ID de jeu de l'user dans gameIDList
+                                }
                             }
                         }
                         transferDataToRecyclerView(gameIDList) //ASYNCHRONE -> on doit attendre que les GameID soient prêts

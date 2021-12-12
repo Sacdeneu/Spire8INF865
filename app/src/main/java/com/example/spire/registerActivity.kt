@@ -86,10 +86,12 @@ class registerActivity : AppCompatActivity() {
                                     val gamelist = hashMapOf(
                                         "UserID" to (FirebaseAuth.getInstance().currentUser?.uid)
                                     )
-                                    FirebaseFirestore.getInstance().collection("GameLists").add(gamelist)
+                                    FirebaseFirestore.getInstance().collection("GameLists").document(
+                                        FirebaseAuth.getInstance().currentUser?.uid!!
+                                    ).set(gamelist)
 
                                     val friends = hashMapOf(
-                                        "friends" to arrayListOf<String>("Michel","Gné")
+                                        "friends" to arrayListOf<String>()
                                     )
                                     FirebaseAuth.getInstance().currentUser?.let { it1 ->
                                         FirebaseFirestore.getInstance().collection("Friends")
