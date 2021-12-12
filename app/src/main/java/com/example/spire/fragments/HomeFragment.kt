@@ -86,15 +86,20 @@ class HomeFragment : Fragment() {
             FirebaseFirestore.getInstance().collection("GameLists")
                 .document(it1.uid).get().addOnSuccessListener { document ->
                     //récupération data dans la gamelist
-                    val map: Map<String, Long> = document.data as Map<String, Long>
-                    for ((key, value) in map) {
-                        //si la clé n'est pas le UserID on ajoute l'ID du jeu dans le tableau
-                        if (key != "UserID") {
-                            val convertedID = value.toInt()
-                            gameIDList.add(convertedID) //on ajoute tous les ID de jeu de l'user dans gameIDList
+                    if(document.data != null){
+                        val map: Map<String, Long> = document.data as Map<String, Long>
+                        for ((key, value) in map) {
+                            //si la clé n'est pas le UserID on ajoute l'ID du jeu dans le tableau
+                            if (key != "UserID") { //on ne stocke pas le UID de l'user dans notre liste
+                                val convertedID = value.toInt()
+                                gameIDList.add(convertedID) //on ajoute tous les ID de jeu de l'user dans gameIDList
+                            }
                         }
+                        transferDataToRecyclerView(gameIDList) //ASYNCHRONE -> on doit attendre que les GameID soient prêts
                     }
-                    transferDataToRecyclerView(gameIDList) //ASYNCHRONE -> on doit attendre que les GameID soient prêts
+                    else{
+                        transferDataToRecyclerView(gameIDList) //ASYNCHRONE -> on doit attendre que les GameID soient prêts
+                    }
 
                 }
         }
@@ -104,6 +109,9 @@ class HomeFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun transferDataToRecyclerView(gameidList: ArrayList<Int>){
+        if(gameidList.isNullOrEmpty()){ //verif en cas de bug (pas de liste associée / null passé en argument)
+            binding.TextViewNoGameAdded.visibility = View.VISIBLE //message indiquant qu'il faut ajouter un jeu car la liste est vide
+        }
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())
@@ -131,12 +139,11 @@ class HomeFragment : Fragment() {
                 if(gameList.size > 0 ){
                     binding.TextViewNoGameAdded.visibility = View.GONE
                 }
-                else{
+                else if(gameidList.isNullOrEmpty() || gameList.isNullOrEmpty()){
                     binding.TextViewNoGameAdded.visibility = View.VISIBLE //message indiquant qu'il faut ajouter un jeu car la liste est vide
                 }
                 showAllGames(gameList) //on génère la recyclerView
             },{
-                // si erreur
             })
 
 
