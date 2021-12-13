@@ -84,7 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                android:maxHeight="400dp"
+                android:maxLines="50"
+                android:ellipsize="end"
                 android:text="SUMMARY Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et nisi libero. Donec mollis eros sit amet libero pretium, eu ultricies lectus facilisis. Nulla pellentesque libero quis nisl egestas, vel viverra diam dictum. Sed dapibus faucibus ex, vel malesuada nisi rutrum eget. Suspendisse quis mi mollis, finibus libero quis, efficitur augue. Nullam pellentesque fringilla orci, ut ornare mauris finibus nec. Curabitur ut scelerisque ipsum, eget fermentum magna. " />
 
             <TextView
@@ -158,19 +159,20 @@
                     android:id="@+id/game_comment_user"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:paddingStart="10dp"
-                    android:text="COMMENT FROM A USER Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla et nisi libero. Donec mollis eros sit amet libero pretium, eu ultricies lectus facilisis. Nulla pellentesque libero quis nisl egestas, vel viverra diam dictum. Sed dapibus faucibus ex, vel malesuada nisi rutrum eget. Suspendisse quis mi mollis, finibus libero quis, efficitur augue. Nullam pellentesque fringilla orci, ut ornare mauris finibus nec. Curabitur ut scelerisque ipsum, eget fermentum magna. " />
+                    android:text="One of the best games I’ve ever played. The soundtrack, the story, the world building, all amazing!"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/addButton"
+        android:id="@+id/addGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:src="@drawable/ic_add_circle"
-        app:backgroundTint="@color/darkblue"
+        app:backgroundTint="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

@@ -33,7 +33,14 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val delete_Acount = findPreference("delete_Acount") as Preference?
         val userAcount = findPreference("id_Compte") as Preference?
 
-        userAcount!!.setTitle(user.email)
+        userAcount!!.setTitle("Mon profil : \n" + user.email)
+        userAcount!!.setOnPreferenceClickListener {
+            Firebase.auth.signOut()
+            val logOutIntent = Intent(activity, LoginActivity::class.java)
+            startActivity(logOutIntent)
+            activity?.finish()
+            true
+        }
 
         disconnectPref!!.setOnPreferenceClickListener {
             Firebase.auth.signOut()
@@ -53,7 +60,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                     if (task.isSuccessful) {
                         /*Toast.makeText(
                         this@SettingsFragment,
-                        "Compte suprimé avec succes",
+                        "Compte suprimé avec succès",
                         Toast.LENGTH_SHORT
                     ).show()*/
                     }

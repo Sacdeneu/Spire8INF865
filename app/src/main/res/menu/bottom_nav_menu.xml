@@ -13,20 +13,20 @@
         android:id="@+id/ic_best_games"
         android:title="Meilleurs jeux"
         android:icon="@drawable/ic_chart" />
-    <item
-        android:id="@+id/ic_friendlist"
-        android:title="Liste d'amis"
-        android:icon="@drawable/ic_multiple_users_circle" />
     <!--<item
         android:id="@+id/ic_user_profil"
         android:title="Profil"
         android:icon="@drawable/ic_share" />-->
     <item
-        android:id="@+id/ic_settings"
-        android:title="@string/settings"
-        android:icon="@drawable/ic_settings"/>
-    <item
         android:id="@+id/ic_search_game"
         android:title="Recherche"
         android:icon="@drawable/ic_search" />
+    <item
+        android:id="@+id/ic_friendlist"
+        android:title="Liste d'amis"
+        android:icon="@drawable/ic_multiple_users_circle" />
+    <item
+        android:id="@+id/ic_settings"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_settings"/>
 </menu>

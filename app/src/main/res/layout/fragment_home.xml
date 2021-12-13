@@ -16,8 +16,10 @@
             <TextView
                 android:id="@+id/TextViewNoGameAdded"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Liste vide, ajoutez des jeux dès maintenant via la page de recherche !"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:gravity="center"
+                android:text="Votre liste est vide.\n\n Ajoutez des jeux dès maintenant via la page de recherche !"
                 android:textSize="20sp"
                 android:visibility="gone"
                 />

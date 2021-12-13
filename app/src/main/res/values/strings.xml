@@ -7,7 +7,7 @@
     <string name="friends">Friends</string>
     <string name="highlighted_title">Highlights</string>
     <string name="settings">Settings</string>
-    <string name="game_sheet">Fiche de jeu</string>
+    <string name="game_comment_score_default">5 \n /5</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -51,42 +51,6 @@
         <item>Bethesda</item>
         <item>Xbox Game Studios</item>
         <item>Take Two</item>
-    </string-array>
-
-    <string-array name="games_publishing_year">
-        <item>2021</item>
-        <item>2021</item>
-        <item>2021</item>
-        <item>2015</item>
-        <item>2011</item>
-        <item>2021</item>
-        <item>2021</item>
-        <item>2021</item>
-        <item>2021</item>
-        <item>2021</item>
-    </string-array>
-
-    <string-array name="friends_name">
-        <item>François</item>
-        <item>Franck</item>
-        <item>Baptiste</item>
-        <item>Théo</item>
-        <item>Thomas</item>
-        <item>Mathieu</item>
-        <item>Mathéo</item>
-        <item>Daniel</item>
-        <item>Pierre</item>
-        <item>Noa</item>
-        <item>François</item>
-        <item>Franck</item>
-        <item>Baptiste</item>
-        <item>Théo</item>
-        <item>Thomas</item>
-        <item>Mathieu</item>
-        <item>René</item>
-        <item>Daniel</item>
-        <item>Pierre</item>
-        <item>Noa</item>
     </string-array>
 
     <string-array name="my_games"></string-array>

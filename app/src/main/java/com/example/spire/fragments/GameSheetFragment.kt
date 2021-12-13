@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.content.Intent
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
 import com.example.spire.databinding.FragmentGameSheetBinding
@@ -71,9 +72,9 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         super.onViewCreated(view, savedInstanceState)
         binding.gameAdvancement.text = "Terminé"
         binding.gameAdvancement.setTextColor(Color.parseColor("#0aad3f"))
-        binding.gameScoreUser.text = "4,0 \n /5"
-        binding.gameRatingBar.onRatingBarChangeListener = this    //Ecoute les changements de note
-        averageScore(score_list)
+        binding.gameScoreUser.text = "5 \n /5"
+        //binding.gameRatingBar.onRatingBarChangeListener = this    //Ecoute les changements de note
+        //averageScore(score_list)
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
@@ -88,10 +89,11 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
                 response: Response<Game>
             ) {
                 binding.gameTitle.text = response.body()!!.name
+                binding.gameScorePublic.text = (response.body()!!.metacritic.toFloat() /20).toString() + "  \n /5"
                 binding.gameSummary.text = response.body()!!.description_raw
-                binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString()
+                binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString().substring(24)
                 Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
-                binding.addButton.setOnClickListener {
+                binding.addGameButton.setOnClickListener {
                     FirebaseAuth.getInstance().currentUser?.let { it1 ->
                         FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)
                             .update("${response.body()!!.name} ID", currentGameId)
@@ -114,7 +116,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
 
 
 
-
+    // Pour noter le jeu et que le score moyen change en conséquence :
     override fun onRatingChanged(p0: RatingBar?, p1: Float, p2: Boolean) {  //Lorsque la note du jeu change :
         game_score_personal = p1.toDouble()
         //game_score_personal_text.text = game_score_personal.toString()
@@ -123,10 +125,10 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         } else {
             score_list[score_list.lastIndex] = game_score_personal
         }
-        averageScore(score_list)
+        //averageScore(score_list)
     }
 
-    fun averageScore(score_list: MutableList<Double>) { //Calcule et affiche le score moyen du jeu
+    /*fun averageScore(score_list: MutableList<Double>) { //Calcule et affiche le score moyen du jeu
         var average_score = 0.0
         var total_score = 0.0
         for (i in 0..(score_list.size-1)) {
@@ -135,7 +137,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
         }
         average_score = ((((total_score / score_list.size)* 100).toInt()).toDouble() / 100) //Calcul le score moyen
         binding.gameScorePublic.text = "$average_score \n /5"   //Affiche le score de la moyenne de tous les utilisateurs
-    }
+    }*/
 
     override fun onDestroyView() {
         super.onDestroyView()

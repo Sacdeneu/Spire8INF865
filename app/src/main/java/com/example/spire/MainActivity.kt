@@ -1,22 +1,12 @@
 package com.example.spire
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.view.*
 import android.view.View.*
-import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
-import android.view.animation.AnimationUtils
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import androidx.annotation.NonNull
-import com.google.android.material.navigation.NavigationBarView
-import androidx.core.util.Pair
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.app.ActivityCompat
-import androidx.fragment.app.FragmentTransaction
 import com.example.spire.databinding.ActivityMainBinding
 import com.example.spire.fragments.*
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private var DELAY_TIME = 4000;
     private lateinit var binding:ActivityMainBinding
     val GAME_ID = "GAME_ID"
+    val USER_ID = "USER_ID"
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -142,6 +133,19 @@ class MainActivity : AppCompatActivity() {
         val newFrag = GameSheetFragment()
         val args = Bundle()
         args.putInt(GAME_ID, game.id)
+        newFrag.arguments = args
+        if(newFrag != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.fragment_container, newFrag)
+                addToBackStack(null)
+                commit()
+            }
+        }
+    }
+    fun adapterOnClickFriend(friend: Friend) {
+        val newFrag = UserProfilFragment()
+        val args = Bundle()
+        args.putInt(USER_ID, friend.id)
         newFrag.arguments = args
         if(newFrag != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
             supportFragmentManager.beginTransaction().apply {

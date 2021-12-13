@@ -73,7 +73,16 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@color/purple_500"/>
+            android:background="#67C7FF"/>
+
+        <TextView
+            android:id="@+id/TextViewNoFriendAdded"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Liste vide, ajoutez des jeux dès maintenant via la page de recherche !"
+            android:textSize="20sp"
+            android:visibility="gone"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_friends"

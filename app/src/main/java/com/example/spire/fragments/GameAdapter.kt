@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.GridLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
 import com.google.firebase.auth.FirebaseAuth
@@ -39,8 +40,9 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
     }
     class GameViewHolder(itemView: View, val onClick: (Game) -> Unit) : RecyclerView.ViewHolder(itemView){
         private val gameTextView: TextView = itemView.findViewById(R.id.game_text)
-        private val buttonView: Button = itemView.findViewById(R.id.game_sheet_button)
-        private val buttonViewadd: Button = itemView.findViewById(R.id.addButton)
+        private val gameScoreTextView: TextView = itemView.findViewById(R.id.game_score)
+        private val buttonView: GridLayout = itemView.findViewById(R.id.Game)
+        private val buttonViewAddGame: Button = itemView.findViewById(R.id.addGameButton)
         private val gameImage: ImageView = itemView.findViewById(R.id.game_image)
         private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
 
@@ -56,6 +58,7 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
         //binding, modifie le nom du jeu pour la valeur dans l'API et ajoute un listener on click sur le bouton voir le jeu
         fun bind(game: Game){
             gameTextView.text = game.name
+            gameScoreTextView.text = (game.metacritic.toFloat() /20).toString() + " / 5"
             Picasso.get().load(game.background_image).into(gameImage)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
@@ -69,9 +72,10 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
                     call: Call<Game>,
                     response: retrofit2.Response<Game>
                 ) {
+                    Log.d("response", response.body().toString())
                     if(response.body()!!.publishers[0] != null)
                         publisherTextView.text = response.body()!!.publishers[0]!!.name
-                    buttonViewadd.setOnClickListener {
+                    buttonViewAddGame.setOnClickListener {
                         FirebaseAuth.getInstance().currentUser?.let { it1 ->
                             FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)
                                 .update("${response.body()!!.name} ID", game.id)

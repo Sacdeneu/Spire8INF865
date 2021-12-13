@@ -5,6 +5,7 @@ import java.util.*
 data class Game(
     val id : Int, //id du jeu
     val name : String, //nom du jeu
+    val metacritic : Int,    //Score du jeu
     val release : Date, // date de sortie
     val released : Date, // date de sortie (jeu détaillé)
     val background_image : String, // image de fond

@@ -12,15 +12,14 @@
     card_view:cardCornerRadius="8dp"
     card_view:contentPadding="10dp"
     android:foreground="?selectableItemBackground"
-    android:clickable="true"
-    android:onClick="buttonLinkGame">
+    android:clickable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
         <GridLayout
-            android:id="@+id/Game1"
+            android:id="@+id/Game"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -81,9 +80,10 @@
             <LinearLayout
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="right">
 
-                <Button
+                <!--<Button
                     android:id="@+id/game_sheet_button"
                     android:layout_width="wrap_content"
                     android:layout_height="35dp"
@@ -106,30 +106,29 @@
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="10dp"
                     android:padding="0dp"
-                    android:backgroundTint="#EEEEEE"
+                    android:backgroundTint="#67C7FF"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:onClick="buttonMoveGameList"
-                    android:text="⇅"
+                    android:text="+"
                     android:textColor="@color/black"
-                    android:textSize="24dp" />
+                    android:textSize="24dp" />-->
 
                 <Button
-                    android:id="@+id/addButton"
+                    android:id="@+id/addGameButton"
                     android:layout_width="42dp"
                     android:layout_height="35dp"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="10dp"
-                    android:backgroundTint="#EEEEEE"
+                    android:backgroundTint="@color/darkblue"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:onClick="buttonMoveGameList"
                     android:padding="0dp"
                     android:text="+"
-                    android:textColor="@color/black"
-                    android:textSize="24dp" />
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold"/>
             </LinearLayout>
-
         </GridLayout>
 
         <!--<LinearLayout

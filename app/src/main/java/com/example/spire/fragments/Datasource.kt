@@ -37,10 +37,10 @@ class Datasource5(val context: UserProfilFragment) {
     }
 }
 
-
+/*
 class Datasource3(val context: FriendsFragment) {
     fun getFriendList(): Array<String> {
 
         return context.resources.getStringArray(R.array.friends_name)
     }
-}
+}*/
