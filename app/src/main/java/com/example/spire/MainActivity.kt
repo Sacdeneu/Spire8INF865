@@ -233,19 +233,5 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun buttonDeleteGame(view: View){
-        val gameName : String = findViewById<TextView>(R.id.game_text).text.toString()
 
-        FirebaseAuth.getInstance().currentUser?.let { it1 ->
-            FirebaseFirestore.getInstance().collection("GameLists")
-                .document(it1.uid).update(gameName + " ID", FieldValue.delete()).addOnSuccessListener {
-                    Toast.makeText(
-                        this@MainActivity,
-                        "Jeu supprimé avec succès",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-
-        }
-    }
 }

@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
@@ -48,6 +49,7 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
         private val gameScoreTextView: TextView = itemView.findViewById(R.id.game_score)
         private val buttonView: GridLayout = itemView.findViewById(R.id.Game)
         private val buttonViewAddGame: Button = itemView.findViewById(R.id.addGameButton)
+        private val buttonViewDeleteGame : Button = itemView.findViewById(R.id.deleteGameButton)
 
         private var currentGame: Game? = null
 
@@ -116,6 +118,19 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
                                     Toast.makeText(itemView.context, "Jeu ajouté à votre liste", Toast.LENGTH_SHORT).show()
                                 }
                         }
+                    }
+                    buttonViewDeleteGame.setOnClickListener {
+                        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+                            FirebaseFirestore.getInstance().collection("GameLists")
+                                .document(it1.uid).update("${gameList[0].name} ID", FieldValue.delete()).addOnSuccessListener {
+                                    Toast.makeText(
+                                        itemView.context,
+                                        "Jeu supprimé avec succès",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+
+                        }
 
                     }
                     buttonView.setOnClickListener {
@@ -145,4 +160,5 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
     override fun onBindViewHolder(holder: GameViewHolder, position: Int) {
         holder.bind(gameList[position])
     }
+
 }
