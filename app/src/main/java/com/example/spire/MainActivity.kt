@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         val HighlightedFragment = HighlightedFragment()
 
 
-
         //setup toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar_list)
         setSupportActionBar(toolbar)
@@ -86,49 +85,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    fun buttonEditOrderList(menu : MenuItem){
-        Toast.makeText(applicationContext,"Modification en cours", Toast.LENGTH_SHORT).show()
-        findViewById<View>(R.id.edit).visibility=GONE
 
-        findViewById<View>(R.id.add).visibility=GONE
-        findViewById<View>(R.id.share).visibility=GONE
-
-        findViewById<View>(R.id.validate).visibility=VISIBLE
-        findViewById<View>(R.id.cancel).visibility=VISIBLE
-
-        //findViewById<View>(R.id.move_game).visibility=VISIBLE
-    }
-
-    fun buttonEditOrderListValidate(menu : MenuItem){
-        Toast.makeText(applicationContext,"Modification validé", Toast.LENGTH_SHORT).show()
-        findViewById<View>(R.id.validate).visibility=GONE
-
-        findViewById<View>(R.id.cancel).visibility=GONE
-        //findViewById<View>(R.id.move_game).visibility=GONE
-
-        findViewById<View>(R.id.add).visibility=VISIBLE
-        findViewById<View>(R.id.share).visibility=VISIBLE
-        findViewById<View>(R.id.edit).visibility=VISIBLE
-    }
-
-    fun buttonEditOrderListCancel(menu : MenuItem){
-        Toast.makeText(applicationContext,"Modification annulé", Toast.LENGTH_SHORT).show()
-        findViewById<View>(R.id.cancel).visibility=GONE
-
-        findViewById<View>(R.id.validate).visibility=GONE
-        //findViewById<View>(R.id.move_game).visibility=GONE
-
-        findViewById<View>(R.id.add).visibility=VISIBLE
-        findViewById<View>(R.id.share).visibility=VISIBLE
-        findViewById<View>(R.id.edit).visibility=VISIBLE
-    }
-
-    fun buttonMoveGameList(view : View){
-        Toast.makeText(applicationContext,"PopUp déplacement du jeu dans la liste", Toast.LENGTH_SHORT).show()
-
-        val PopUpValidateNewOrder = PopUpValidateNewOrder()
-        replaceFragment(PopUpValidateNewOrder)
-    }
     fun adapterOnClick(game: Game) {
         val newFrag = GameSheetFragment()
         val args = Bundle()
@@ -142,10 +99,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-    fun adapterOnClickFriend(friend: Friend) {
+    fun adapterOnClickFriend(friendID: String) {
         val newFrag = UserProfilFragment()
         val args = Bundle()
-        args.putInt(USER_ID, friend.id)
+        args.putString(USER_ID, friendID)
         newFrag.arguments = args
         if(newFrag != null){ //si le fragment n'est pas null on le remplace quand on change d'écran dans le menu du bas
             supportFragmentManager.beginTransaction().apply {
@@ -211,9 +168,84 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun buttonFriendGameList(view: View){
-        val friendId : String = findViewById<TextView>(R.id.friend_text).text.toString()
+        val friendName : String = findViewById<TextView>(R.id.friend_text).text.toString()
+        var friendId : String = ""
 
-        FirebaseFirestore.getInstance().collection("GameLists").document(friendId).get()
+        FirebaseFirestore.getInstance().collection("Users").whereEqualTo("Username",friendName as String)
+            .get().addOnSuccessListener { query ->
+                for (queryResult in query) {
+                    friendId = queryResult.id
+                    adapterOnClickFriend(friendId)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(
+                    this@MainActivity,
+                    "ERROR",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
+    }
+
+    fun buttonDeleteFriend(view: View){
+        val friendName : String = findViewById<TextView>(R.id.user_name).text.toString()
+
+        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+            FirebaseFirestore.getInstance().collection("Users")
+                .whereEqualTo("Username", friendName as String).get().addOnSuccessListener { query ->
+                    for (queryResult in query) {
+                        FirebaseFirestore.getInstance().collection("Friends").document(it1.uid)
+                            .get().addOnSuccessListener { document ->
+                                document.reference.update(
+                                    "friends",
+                                    FieldValue.arrayRemove(queryResult.get("Username"))
+                                )
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Ami supprimé avec succès",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .addOnCanceledListener {
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Erreur",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                    }
+                }
+                .addOnCanceledListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Erreur inconnu",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+        }
+
+    }
+
+    fun buttonDeleteGame(view: View){
+        val gameName : String = findViewById<TextView>(R.id.game_text).text.toString()
+
+        FirebaseAuth.getInstance().currentUser?.let { it1 ->
+            FirebaseFirestore.getInstance().collection("GameLists")
+                .document(it1.uid).update(gameName + " ID", FieldValue.delete()).addOnSuccessListener {
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Jeu supprimé avec succès",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+        }
     }
 }

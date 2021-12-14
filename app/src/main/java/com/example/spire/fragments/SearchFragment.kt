@@ -20,6 +20,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.spire.LoginActivity
 import com.example.spire.MainActivity
+import com.example.spire.R
 import com.google.gson.GsonBuilder
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -70,7 +71,7 @@ class SearchFragment : Fragment() {
     }
     private fun showAllGames(games : List<Game>){
         mIsLoading = true
-        gameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
+        gameAdapter = GameAdapter(games, false) { game -> adapterOnClick(game) }
         (gameAdapter as GameAdapter).setList(games)
         binding.recyclerSearchGame.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -82,6 +83,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")

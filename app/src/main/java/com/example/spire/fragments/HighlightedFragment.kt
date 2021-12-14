@@ -11,6 +11,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import com.android.volley.RequestQueue;
 import com.example.spire.MainActivity
+import com.example.spire.R
 import org.json.JSONException
 import retrofit2.Callback
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,7 +49,7 @@ class HighlightedFragment : Fragment() {
         (activity as MainActivity).adapterOnClick(game)
     }
     private fun showAllGames(games : List<Game>){
-        gameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
+        gameAdapter = GameAdapter(games, false) { game -> adapterOnClick(game) }
         (gameAdapter as GameAdapter).setList(games)
         binding.recyclerHighlightedGame.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -66,6 +67,7 @@ class HighlightedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())

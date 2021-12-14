@@ -4,47 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <item
-        android:title="Add"
-        android:id="@+id/add"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_add_circle"
-        />
 
-    <item
-        android:title="Share"
-        android:id="@+id/share"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_share"
-        />
-
-    <item
-        android:title="Edit"
-        android:id="@+id/edit"
-        android:icon="@drawable/ic_edit"
-        app:showAsAction="always"
-        android:onClick="buttonEditOrderList"
-    />
-    <item
-        android:title="Validate"
-        android:id="@+id/validate"
-        android:icon="@drawable/ic_validate"
-        app:showAsAction="always"
-        android:onClick="buttonEditOrderListValidate"
-        />
-    <item
-        android:title="Cancel"
-        android:id="@+id/cancel"
-        android:icon="@drawable/ic_cancel"
-        app:showAsAction="always"
-        android:onClick="buttonEditOrderListCancel"
-        />
-
-    <item
-        android:title="Delete"
-        android:id="@+id/delete"
-        android:icon="@drawable/ic_delete"
-        app:showAsAction="always"
-    />
 
 </menu>

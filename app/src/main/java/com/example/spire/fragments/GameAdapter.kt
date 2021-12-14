@@ -25,10 +25,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) -> Unit) :
+class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean, private val onClick: (Game) -> Unit) :
     RecyclerView.Adapter<GameAdapter.GameViewHolder>() {
 
     private var gamelist = arrayListOf<Game>()
+
 
     @SuppressLint("NotifyDataSetChanged")
     fun setList(list : List<Game>) { //set la liste interne à l'adapter
@@ -51,6 +52,8 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
         private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
 
         private var currentGame: Game? = null
+
+
 
         init {
             itemView.setOnClickListener {
@@ -116,6 +119,16 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.game_card, parent, false)
+
+        if(isHome){
+            view.findViewById<View>(R.id.addGameButton).visibility = View.GONE
+            view.findViewById<View>(R.id.deleteGameButton).visibility = View.VISIBLE
+        }
+        else{
+            view.findViewById<View>(R.id.addGameButton).visibility = View.VISIBLE
+            view.findViewById<View>(R.id.deleteGameButton).visibility = View.GONE
+        }
+
         return GameViewHolder(view, onClick)
     }
     override fun getItemCount(): Int {
