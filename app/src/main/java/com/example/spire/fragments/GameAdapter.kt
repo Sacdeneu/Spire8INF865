@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.GridLayout
+import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.R
 import com.google.firebase.auth.FirebaseAuth
@@ -106,6 +103,7 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
                                 .update("${gameList[0].name} ID", game.id)
                                 .addOnSuccessListener { documentReference ->
                                     Log.d(ContentValues.TAG, "added")
+                                    Toast.makeText(itemView.context, "Jeu ajouté à votre liste", Toast.LENGTH_SHORT).show()
                                 }
                         }
 
