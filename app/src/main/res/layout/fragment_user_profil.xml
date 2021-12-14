@@ -64,6 +64,18 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:id="@+id/TextViewNoGameAdded"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="50dp"
+                android:gravity="center"
+                android:text="La liste de l'utilisateur est vide..."
+                android:textSize="20sp"
+                android:visibility="gone"
+                />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_Game"
                 android:layout_width="match_parent"

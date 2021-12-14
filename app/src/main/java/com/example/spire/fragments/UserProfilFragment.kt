@@ -109,6 +109,9 @@ class UserProfilFragment : Fragment() {
 
     @SuppressLint("CheckResult")
     private fun transferDataToRecyclerView(gameidList: ArrayList<Int>){
+        if(gameidList.isNullOrEmpty()){ //verif en cas de bug (pas de liste associée / null passé en argument)
+            binding.TextViewNoGameAdded.visibility = View.VISIBLE //message indiquant qu'il faut ajouter un jeu car la liste est vide
+        }
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())
@@ -132,6 +135,12 @@ class UserProfilFragment : Fragment() {
 
                 response.forEach {game ->
                     gameList.add(game as Game) //chaque réponse est stockée dans la gameList
+                }
+                if(gameList.size > 0 ){
+                    binding.TextViewNoGameAdded.visibility = View.GONE
+                }
+                else if(gameidList.isNullOrEmpty() || gameList.isNullOrEmpty()){
+                    binding.TextViewNoGameAdded.visibility = View.VISIBLE //message indiquant qu'il faut ajouter un jeu car la liste est vide
                 }
                 showAllGames(gameList) //on génère la recyclerView
             },{
