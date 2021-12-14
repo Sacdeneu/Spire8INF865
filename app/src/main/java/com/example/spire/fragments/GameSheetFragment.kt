@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.content.Intent
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
+import android.widget.Toast
 import com.example.spire.databinding.FragmentGameSheetBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -137,6 +138,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
                             .update("${response.body()!!.name} ID", currentGameId)
                         .addOnSuccessListener { documentReference ->
                             Log.d(TAG, "added")
+                            Toast.makeText(context, "Jeu ajouté à votre liste", Toast.LENGTH_SHORT).show()
                         }
                     }
 
