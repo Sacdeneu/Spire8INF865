@@ -57,6 +57,8 @@
                 android:id="@+id/game_publisher"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
+                android:maxWidth="170dp"
+                android:maxLines="1"
                 android:textSize="13sp"
                 android:text="GAME PUBLISHER | YEAR"
                 />
@@ -65,6 +67,7 @@
                 android:id="@+id/game_advancement"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
+                android:maxWidth="170dp"
                 android:textSize="13sp"
                 android:text="GAME ADVANCEMENT" />
 
@@ -73,6 +76,7 @@
                 android:layout_height="50dp"
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
+                android:maxWidth="170dp"
                 android:gravity="center"
                 android:text="3,7 / 5"
                 android:textSize="30sp"
@@ -81,6 +85,7 @@
             <LinearLayout
                 android:layout_column="1"
                 android:layout_gravity="fill_horizontal"
+                android:maxWidth="170dp"
                 android:orientation="horizontal"
                 android:gravity="right">
 

@@ -75,7 +75,7 @@ class HighlightedFragment : Fragment() {
 
         val api = retrofit.create(ApiService::class.java)
 
-        api.fetchAllGames().enqueue(object : Callback<AllGameQuery> {
+        api.fetchCloseToReleaseGames().enqueue(object : Callback<AllGameQuery> {
             override fun onResponse(
                 call: Call<AllGameQuery>,
                 response: retrofit2.Response<AllGameQuery>
@@ -115,7 +115,7 @@ class HighlightedFragment : Fragment() {
 
         val api = retrofit.create(ApiService::class.java)
 
-        api.GetPage(page).enqueue(object : Callback<AllGameQuery> {
+        api.GetPageCloseToRelease(page).enqueue(object : Callback<AllGameQuery> {
             override fun onResponse(call: Call<AllGameQuery>, response: retrofit2.Response<AllGameQuery>) {
                 val result = response.body()
                 if(result == null)
@@ -151,7 +151,7 @@ class HighlightedFragment : Fragment() {
 
         val api = retrofit.create(ApiService::class.java)
 
-        api.GetPage(mCurrentPage).enqueue(object : Callback<AllGameQuery> {
+        api.GetPageCloseToRelease(mCurrentPage).enqueue(object : Callback<AllGameQuery> {
             override fun onResponse(call: Call<AllGameQuery>, response: retrofit2.Response<AllGameQuery>) {
                 val result = response.body()
                 if(result == null)

@@ -44,12 +44,13 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
         notifyItemRangeInserted(lastIndex, newList.size)
     }
     class GameViewHolder(itemView: View, val onClick: (Game) -> Unit) : RecyclerView.ViewHolder(itemView){
+        private val gameImage: ImageView = itemView.findViewById(R.id.game_image)
         private val gameTextView: TextView = itemView.findViewById(R.id.game_text)
+        private val gameAdvancementTextView: TextView = itemView.findViewById(R.id.game_advancement)
+        private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
         private val gameScoreTextView: TextView = itemView.findViewById(R.id.game_score)
         private val buttonView: GridLayout = itemView.findViewById(R.id.Game)
         private val buttonViewAddGame: Button = itemView.findViewById(R.id.addGameButton)
-        private val gameImage: ImageView = itemView.findViewById(R.id.game_image)
-        private val publisherTextView: TextView = itemView.findViewById(R.id.game_publisher)
 
         private var currentGame: Game? = null
 
@@ -66,8 +67,11 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
         fun bind(game: Game){
             gameTextView.text = game.name
             gameScoreTextView.text = (game.metacritic.toFloat() /20).toString() + " / 5"
+            gameAdvancementTextView.text = "Pas commencé"
 
-            Picasso.get().load(game.background_image).into(gameImage)
+            if(game.background_image != null){
+                Picasso.get().load(game.background_image).into(gameImage)
+            }
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -93,11 +97,19 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
                         gameList.add(gameID as Game) //chaque réponse est stockée dans la gameList
                     }
 
-
-                    if (gameList[0] != null) {
-                        publisherTextView.text = gameList[0].publishers[0].name
+                    if(gameList[0] != null){
+                        if(gameList[0].released != null){
+                            publisherTextView.text = gameList[0].publishers[0].name + " | " + gameList[0].released.toString().substring(24)
+                        } else {
+                            publisherTextView.text = gameList[0].publishers[0].name + " | TBA"
+                        }
+                    } else {
+                        if(gameList[0].released != null){
+                            publisherTextView.text = "Éditeur inconnu | " + gameList[0].released.toString().substring(24)
+                        } else {
+                            publisherTextView.text = "Éditeur inconnu" + " | TBA"
+                        }
                     }
-
 
                     buttonViewAddGame.setOnClickListener {
                         FirebaseAuth.getInstance().currentUser?.let { it1 ->

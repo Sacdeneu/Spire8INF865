@@ -70,8 +70,8 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.gameAdvancement.text = "Terminé"
-        binding.gameAdvancement.setTextColor(Color.parseColor("#0aad3f"))
+        binding.gameAdvancement.text = "Pas commencé"
+        binding.gameAdvancement.setTextColor(Color.parseColor("#FFD700"))
         binding.gameScoreUser.text = "5 \n /5"
         //binding.gameRatingBar.onRatingBarChangeListener = this    //Ecoute les changements de note
         //averageScore(score_list)
@@ -90,9 +90,47 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
             ) {
                 binding.gameTitle.text = response.body()!!.name
                 binding.gameScorePublic.text = (response.body()!!.metacritic.toFloat() /20).toString() + "  \n /5"
-                binding.gameSummary.text = response.body()!!.description_raw
-                binding.gamePublisher.text = response.body()!!.publishers[0].name + " | " + response.body()!!.released.toString().substring(24)
-                Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
+
+                if( response.body()!!.metacritic >= 94){
+                    binding.gameScorePublic.setTextColor(Color.parseColor("#9400D3"))
+                } else if( (response.body()!!.metacritic >= 75) and (response.body()!!.metacritic < 94) ){
+                    binding.gameScorePublic.setTextColor(Color.parseColor("#0aad3f"))
+                } else if ( (response.body()!!.metacritic >= 40) and (response.body()!!.metacritic < 75)){
+                    binding.gameScorePublic.setTextColor(Color.parseColor("#FFD700"))
+                } else if ( (response.body()!!.metacritic > 0) and (response.body()!!.metacritic < 40)){
+                    binding.gameScorePublic.setTextColor(Color.parseColor("#B22222"))
+                }
+
+                binding.gameAdvancement.setTextColor(Color.parseColor("#FFD700"))
+
+                if(response.body()!!.description_raw.isNotEmpty()){
+                    binding.gameSummary.text = response.body()!!.description_raw
+                } else {
+                    binding.gameSummary.text = "Aucune description."
+                }
+
+                if( response.body()!!.released != null ){
+                    if(response.body()!!.publishers.isNotEmpty()){
+                        if(response.body()!!.publishers[0] != null) {
+                            binding.gamePublisher.text = response.body()!!.publishers[0]!!.name + " | " + response.body()!!.released.toString().substring(24)
+                        }
+                    } else {
+                        binding.gamePublisher.text = "Éditeur inconnu" + " | " + response.body()!!.released.toString().substring(24)
+                    }
+                } else {
+                    if(response.body()!!.publishers.isNotEmpty()){
+                        if(response.body()!!.publishers[0] != null) {
+                            binding.gamePublisher.text = response.body()!!.publishers[0]!!.name + " | TBA"
+                        }
+                    } else {
+                        binding.gamePublisher.text = "Éditeur inconnu" + " | TBA"
+                    }
+                }
+
+                if(response.body()!!.background_image != null){
+                    Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
+                }
+
                 binding.addGameButton.setOnClickListener {
                     FirebaseAuth.getInstance().currentUser?.let { it1 ->
                         FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)

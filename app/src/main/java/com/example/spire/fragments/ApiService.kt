@@ -34,6 +34,16 @@ interface ApiService {
     @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&page_size=10")
     fun SearchGames(@Query("search") searchQuery : String): Call<AllGameQuery>
 
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&dates=2021-11-15,2022-01-15&ordering=-added&page=1&page_size=5")
+    fun fetchCloseToReleaseGames(): Call<AllGameQuery>
 
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&dates=2021-11-15,2022-01-15&ordering=-added&page_size=5")
+    fun GetPageCloseToRelease(@Query("page") nbPage: Int): Call<AllGameQuery>
+
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&ordering=-metacritic&page=1&page_size=5")
+    fun fetchBestGames(): Call<AllGameQuery>
+
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&ordering=-metacritic&page_size=5")
+    fun GetPageBest(@Query("page") nbPage: Int): Call<AllGameQuery>
 
 }

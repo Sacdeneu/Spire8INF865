@@ -46,7 +46,7 @@
                     <TextView
                         android:id="@+id/game_score_public"
                         android:layout_width="match_parent"
-                        android:layout_height="140dp"
+                        android:layout_height="110dp"
                         android:gravity="center"
                         android:text="GLOBAL GAME SCORE"
                         android:textSize="40sp"
@@ -55,7 +55,9 @@
                     <TextView
                         android:id="@+id/game_title"
                         android:layout_width="match_parent"
-                        android:layout_height="60dp"
+                        android:layout_height="90dp"
+                        android:maxLines="4"
+                        android:ellipsize="end"
                         android:gravity="center"
                         android:text="GAME TITLE"
                         android:textSize="20sp"

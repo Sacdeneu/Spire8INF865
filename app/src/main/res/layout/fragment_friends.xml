@@ -32,14 +32,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="20dp"
-                android:layout_weight="1"
+                android:layout_margin="15dp"
+                android:paddingHorizontal="5dp"
                 android:background="?attr/colorPrimary"
                 android:drawableLeft="@drawable/ic_add_circle"
                 android:foregroundTint="@color/white"
                 android:onClick="buttonAddFriends"
-                android:text="Add"
-                android:textSize="20dp" />
+                android:text="Ajouter"
+                android:textSize="18dp" />
 
 
         </LinearLayout>
@@ -62,19 +62,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="15dp"
-                android:layout_weight="1"
+                android:paddingHorizontal="4dp"
                 android:background="?attr/colorPrimary"
                 android:drawableLeft="@drawable/ic_search"
                 android:foregroundTint="@color/white"
                 android:onClick="buttonValidateSearch"
-                android:text="Search"
-                android:textSize="15dp" />
+                android:text="@string/search"
+                android:textSize="13dp" />
         </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="#67C7FF"/>
-
         <TextView
             android:id="@+id/TextViewNoFriendAdded"
             android:layout_width="match_parent"
@@ -88,6 +83,10 @@
             android:id="@+id/recycler_friends"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="#67C7FF"/>
     </LinearLayout>
 
 
