@@ -51,8 +51,6 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
 
         private var currentGame: Game? = null
 
-
-
         init {
             itemView.setOnClickListener {
                 currentGame?.let {
