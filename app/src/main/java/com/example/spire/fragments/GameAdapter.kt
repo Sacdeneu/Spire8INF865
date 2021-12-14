@@ -16,9 +16,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
 import com.squareup.picasso.Picasso
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) -> Unit) :
@@ -59,44 +63,56 @@ class GameAdapter(private val gameList: List<Game>, private val onClick: (Game) 
         fun bind(game: Game){
             gameTextView.text = game.name
             gameScoreTextView.text = (game.metacritic.toFloat() /20).toString() + " / 5"
+
             Picasso.get().load(game.background_image).into(gameImage)
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                 .build()
 
             //on récupère grace à l'ID passé en argument les détails du jeu et on les affiche
             val api = retrofit.create(ApiService::class.java)
-            api.GetGame(game.id).enqueue(object : Callback<Game> {
-                override fun onResponse(
-                    call: Call<Game>,
-                    response: retrofit2.Response<Game>
-                ) {
-                    Log.d("response", response.body().toString())
-                    if(response.body()!!.publishers[0] != null)
-                        publisherTextView.text = response.body()!!.publishers[0]!!.name
+
+            val gameList = arrayListOf<Game>()
+            val requests = arrayListOf<Observable<*>>()
+            val item = api.GetObservableGame(game.id) as Observable<*> //chaque requête de jeu à partir de son ID est stockée dans requests
+            requests.add(item)
+            Observable //on zip nos requêtes pour les executer toutes une par une de manière synchrone (car impossible de le faire de manière asynchrone dans une boucle for)
+                .zip(requests) {args -> listOf(args) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe ({
+
+                    val response = it[0] // réponse cumulée de toute les requêtes
+
+                    response.forEach { gameID ->
+                        gameList.add(gameID as Game) //chaque réponse est stockée dans la gameList
+                    }
+
+
+                    if (gameList[0] != null) {
+                        publisherTextView.text = gameList[0].publishers[0].name
+                    }
+
+
                     buttonViewAddGame.setOnClickListener {
                         FirebaseAuth.getInstance().currentUser?.let { it1 ->
-                            FirebaseFirestore.getInstance().collection("GameLists").document(it1.uid)
-                                .update("${response.body()!!.name} ID", game.id)
+                            FirebaseFirestore.getInstance().collection("GameLists")
+                                .document(it1.uid)
+                                .update("${gameList[0].name} ID", game.id)
                                 .addOnSuccessListener { documentReference ->
                                     Log.d(ContentValues.TAG, "added")
                                 }
                         }
 
                     }
-                }
-
-                override fun onFailure(call: Call<Game>, t: Throwable) {
-                }
-
+                    buttonView.setOnClickListener {
+                        onClick(game)
+                    }
+                },{
             })
-            buttonView.setOnClickListener {
-                onClick(game)
-            }
-
-        }
-    }
+    }}
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GameViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.game_card, parent, false)

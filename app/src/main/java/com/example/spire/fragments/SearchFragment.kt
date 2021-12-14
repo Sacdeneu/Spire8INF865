@@ -21,10 +21,14 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.spire.LoginActivity
 import com.example.spire.MainActivity
 import com.google.gson.GsonBuilder
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 import org.json.JSONException;
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
 
@@ -35,7 +39,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private var mQueue: RequestQueue? = null
     public var mIsLoading = false
-    private var DELAY_TIME_TEXTCHANGED = 2500;
+    private var DELAY_TIME_TEXTCHANGED = 1500;
     private var mIsLastPage = false
     private var mCurrentPage = 0
     private val pageSize = 10
@@ -82,17 +86,28 @@ class SearchFragment : Fragment() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://rawg.io")
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
 
         val api = retrofit.create(ApiService::class.java)
 
-        api.fetchAllGames().enqueue(object : Callback<AllGameQuery>{
-            override fun onResponse(
-                call: Call<AllGameQuery>,
-                response: retrofit2.Response<AllGameQuery>
-            ) {
-                if(!mIsLoading)
-                    showAllGames(response.body()!!.results)
+        val allgameQuery = arrayListOf<AllGameQuery>()
+        val requests2 = arrayListOf<Observable<*>>()
+        val item = api.fetchObservableAllGames() as Observable<*> //chaque requête de jeu à partir de son ID est stockée dans requests
+        requests2.add(item)
+        Observable //on zip nos requêtes pour les executer toutes une par une de manière synchrone (car impossible de le faire de manière asynchrone dans une boucle for)
+            .zip(requests2) {args -> listOf(args) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+
+                val response = it[0] // réponse cumulée de toute les requêtes
+
+                response.forEach { allgameRequest ->
+                    allgameQuery.add(allgameRequest as AllGameQuery) //chaque réponse est stockée dans la gameList
+                }
+                showAllGames(allgameQuery[0].results) //on génère la recyclerView
+
 
                 val layoutManager = binding.recyclerSearchGame.layoutManager as LinearLayoutManager
                 scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
@@ -110,9 +125,40 @@ class SearchFragment : Fragment() {
                     }
 
                     override fun afterTextChanged(p0: Editable?) { //est trigger quand on change le texte pour la recherche
+
+
                         Handler().postDelayed({ //handler mis en place car sinon les données changent trop vite et l'adapter n'arrive plus à suivre
-                            if(binding.searchText.text.trim().toString() != "")
-                                api.SearchGames(binding.searchText.text.trim().toString()).enqueue(object : Callback<AllGameQuery>{
+                            if (binding.searchText.text.trim().toString() != "") {
+                                val retrofitSynchrone = Retrofit.Builder()
+                                    .baseUrl("https://rawg.io")
+                                    .addConverterFactory(GsonConverterFactory.create())
+                                    .addCallAdapterFactory(RxJava3CallAdapterFactory.create()) //on ajoute un adapter spécial pour prendre en compte les Observers de RxJava3
+                                    .build()
+
+                                val backendApiSynchrone =
+                                    retrofitSynchrone.create(ApiService::class.java)
+                                val gameQuery = arrayListOf<AllGameQuery>()
+                                val requests = arrayListOf<Observable<*>>()
+                                val item = backendApiSynchrone.GetObservableSearchGames(
+                                    binding.searchText.text.trim().toString()
+                                ) as Observable<*> //chaque requête de jeu à partir de son ID est stockée dans requests
+                                requests.add(item)
+                                Observable //on zip nos requêtes pour les executer toutes une par une de manière synchrone (car impossible de le faire de manière asynchrone dans une boucle for)
+                                    .zip(requests) { args -> listOf(args) }
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe({
+
+                                        val response =
+                                            it[0] // réponse cumulée de toute les requêtes
+
+                                        response.forEach { allgameRequest ->
+                                            gameQuery.add(allgameRequest as AllGameQuery) //chaque réponse est stockée dans la gameList
+                                        }
+                                        showAllGames(gameQuery[0].results) //on génère la recyclerView
+                                    }, {
+                                    })
+                                /*api.SearchGames(binding.searchText.text.trim().toString()).enqueue(object : Callback<AllGameQuery>{
                                     override fun onResponse(
                                         call: Call<AllGameQuery>,
                                         response: Response<AllGameQuery>
@@ -123,10 +169,10 @@ class SearchFragment : Fragment() {
 
                                     override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
                                     }
-                                })
-                            else { //si on a supprimé notre texte et que le champ est vide, on repart sur la liste basique avec scroll listener
+                                })*/
+                            } else { //si on a supprimé notre texte et que le champ est vide, on repart sur la liste basique avec scroll listener
 
-                                api.fetchAllGames().enqueue(object : Callback<AllGameQuery> {
+                                /*api.fetchAllGames().enqueue(object : Callback<AllGameQuery> {
                                     override fun onResponse(
                                         call: Call<AllGameQuery>,
                                         response: retrofit2.Response<AllGameQuery>
@@ -153,18 +199,12 @@ class SearchFragment : Fragment() {
                                     override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
 
                                     }
-                                })
+                                })*/
                             }
                         }, DELAY_TIME_TEXTCHANGED.toLong());
-                        }
-                    })
+                    }
+                })
             }
-            override fun onFailure(call: Call<AllGameQuery>, t: Throwable) {
-            }
-
-        })
-
-
     }
 
 

@@ -24,6 +24,13 @@ interface ApiService {
     @GET("/api/games/{id}?key=b35f1a8dfd0f48e2a6379d1f942637b8")
     fun GetObservableGame(@Path("id") id: Int?): Observable<Game>
 
+
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&page=1&page_size=10")
+    fun fetchObservableAllGames(): Observable<AllGameQuery>
+
+    @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&page=1&page_size=10")
+    fun GetObservableSearchGames(@Query("search") searchQuery : String): Observable<AllGameQuery>
+
     @GET("/api/games?key=b35f1a8dfd0f48e2a6379d1f942637b8&page_size=10")
     fun SearchGames(@Query("search") searchQuery : String): Call<AllGameQuery>
 
