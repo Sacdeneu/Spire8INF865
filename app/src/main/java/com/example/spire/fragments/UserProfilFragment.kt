@@ -27,8 +27,12 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import java.util.*
 
+private const val ARG_PARAM1 = "param1"
+private const val ARG_PARAM2 = "param2"
 
 class UserProfilFragment : Fragment() {
+    private var param1: String? = null
+    private var param2: String? = null
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<FriendAdapter.FriendViewHolder>? = null
     private var gameAdapter: RecyclerView.Adapter<GameAdapter.GameViewHolder>? = null
@@ -36,10 +40,19 @@ class UserProfilFragment : Fragment() {
     private val binding get() = _binding!!
     public val mylist = arrayListOf<String>()
     private var mQueue: RequestQueue? = null
+    private lateinit var friendId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mQueue = Volley.newRequestQueue(this.context);
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+        val bundle: Bundle? = this.arguments
+        if (bundle != null) {
+            friendId = bundle.getString("USER_ID").toString()
+        }
     }
 
     override fun onCreateView(
@@ -62,7 +75,7 @@ class UserProfilFragment : Fragment() {
     }*/
 
     private fun showAllGames(games : List<Game>){
-        gameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
+        gameAdapter = GameAdapter(games, false) { game -> adapterOnClick(game) }
         (gameAdapter as GameAdapter).setList(games)
         binding.recyclerGame.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -79,9 +92,18 @@ class UserProfilFragment : Fragment() {
 
         val gameIDList = arrayListOf<Int>() //liste des ID de jeux
 
+        var username = getView()?.findViewById<TextView>(R.id.user_name)
+        FirebaseFirestore.getInstance().collection("Users")
+                .document(friendId).get().addOnSuccessListener {
+                if (username != null) {
+                    username.text = it.get("Username").toString()
+                }
+            }
+
+
         FirebaseAuth.getInstance().currentUser?.let { it1 ->
             FirebaseFirestore.getInstance().collection("GameLists")
-                .document(it1.uid).get().addOnSuccessListener { document ->
+                .document(friendId).get().addOnSuccessListener { document ->
                     //récupération data dans la gamelist
                     if(document.data != null){
                         val map: Map<String, Any?> = document.data as Map<String, Any?>

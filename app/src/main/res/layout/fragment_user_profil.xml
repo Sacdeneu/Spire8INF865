@@ -50,7 +50,7 @@
                         android:gravity="center_horizontal"
                         android:paddingTop="40dp"
                         android:text="USER NAME"
-                        android:textSize="40sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -58,9 +58,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:gravity="center"
-                        android:text="USER SCORE"
+                        android:text="0 pts"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/buttonDeleteFriend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Supprimer l'ami"
+                        android:onClick="buttonDeleteFriend"/>
                 </LinearLayout>
             </LinearLayout>
 

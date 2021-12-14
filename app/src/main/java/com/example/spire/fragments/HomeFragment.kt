@@ -6,11 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.MainActivity
+import com.example.spire.R
 import com.example.spire.databinding.FragmentHomeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -65,7 +69,7 @@ class HomeFragment : Fragment() {
 
 
     private fun showAllGames(games : List<Game>){
-        homeGameAdapter = GameAdapter(games) { game -> adapterOnClick(game) }
+        homeGameAdapter = GameAdapter(games, true) { game -> adapterOnClick(game) }
         (homeGameAdapter as GameAdapter).setList(games)
         binding.recyclerHomeGame.apply {
             layoutManager = LinearLayoutManager(activity)
@@ -152,7 +156,9 @@ class HomeFragment : Fragment() {
 
     }
 
+
     override fun onDestroyView() {
+
         super.onDestroyView()
         _binding = null
     }
