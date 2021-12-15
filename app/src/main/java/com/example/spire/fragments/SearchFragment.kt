@@ -12,12 +12,9 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
 import com.example.spire.databinding.FragmentSearchBinding
 import retrofit2.Call
 import retrofit2.Retrofit
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.spire.LoginActivity
 import com.example.spire.MainActivity
 import com.example.spire.R
@@ -38,7 +35,6 @@ class SearchFragment : Fragment() {
     private var gameAdapter: RecyclerView.Adapter<GameAdapter.GameViewHolder>? = null
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
-    private var mQueue: RequestQueue? = null
     public var mIsLoading = false
     private var DELAY_TIME_TEXTCHANGED = 1500;
     private var mIsLastPage = false

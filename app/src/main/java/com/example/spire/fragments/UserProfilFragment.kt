@@ -8,13 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.toolbox.Volley
 import com.example.spire.R
 import com.example.spire.databinding.FragmentUserProfilBinding
 import retrofit2.Call
 import values.Datasource5
 import retrofit2.Retrofit
-import com.android.volley.RequestQueue;
 import com.example.spire.MainActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,12 +37,10 @@ class UserProfilFragment : Fragment() {
     private var _binding: FragmentUserProfilBinding? = null
     private val binding get() = _binding!!
     public val mylist = arrayListOf<String>()
-    private var mQueue: RequestQueue? = null
     private lateinit var friendId : String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mQueue = Volley.newRequestQueue(this.context);
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)

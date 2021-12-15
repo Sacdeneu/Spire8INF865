@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.spire.databinding.FragmentHighlightedBinding
 import retrofit2.Call
 import retrofit2.Retrofit
-import com.android.volley.RequestQueue;
 import com.example.spire.MainActivity
 import com.example.spire.R
 import org.json.JSONException
@@ -23,7 +22,6 @@ class HighlightedFragment : Fragment() {
     private var gameAdapter: RecyclerView.Adapter<GameAdapter.GameViewHolder>? = null
     private var _binding: FragmentHighlightedBinding? = null
     private val binding get() = _binding!!
-    private var mQueue: RequestQueue? = null
     private var mIsLoading = false
     private var mIsLastPage = false
     private var mCurrentPage = 0

@@ -12,10 +12,10 @@ import android.content.Intent
 //import kotlinx.android.synthetic.main.fragment_home.home
 import android.widget.RatingBar
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.example.spire.databinding.FragmentGameSheetBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.squareup.picasso.Picasso
 
 
 import retrofit2.Call
@@ -117,7 +117,7 @@ class GameSheetFragment : Fragment(), RatingBar.OnRatingBarChangeListener {
                 }
 
                 if(response.body()!!.background_image != null){
-                    Picasso.get().load(response.body()!!.background_image).into(binding.gameImage)
+                    Glide.with(activity!!.applicationContext).load(response.body()!!.background_image).into(binding.gameImage)
                 }
 
                 binding.addGameButton.setOnClickListener {

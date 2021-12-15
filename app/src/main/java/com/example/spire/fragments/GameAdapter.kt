@@ -8,12 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.spire.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
-import com.squareup.picasso.Picasso
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -67,7 +67,7 @@ class GameAdapter(private val gameList: List<Game>, private val isHome : Boolean
             gameAdvancementTextView.text = "Pas commencé"
 
             if(game.background_image != null){
-                Picasso.get().load(game.background_image).into(gameImage)
+                Glide.with(itemView.context).load(game.background_image).into(gameImage)
             }
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://rawg.io")
